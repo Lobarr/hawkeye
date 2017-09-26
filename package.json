@@ -1,0 +1,41 @@
+{
+  "name": "hawkeye",
+  "version": "0.1.0",
+  "description":
+    "A web application that allows users view rtsp and rtmp streams for ip cameras",
+  "main": "index.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": "8.5.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.5",
+    "helmet": "^3.8.1",
+    "jsonwebtoken": "^8.0.1",
+    "mongoose": "^4.11.13",
+    "morgan": "^1.8.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-scripts": "1.0.13"
+  },
+  "scripts": {
+    "start-server": "node index.js",
+    "test-server": "mocha .\\api\\test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3"
+  }
+}
