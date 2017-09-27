@@ -21,7 +21,7 @@ const Utils = {
    * @param {string} hash - hash from the db
    * @returns {boolean} - true if password matches
    */
-  async compareHash(input, hash) {
+  async validatePassword(input, hash) {
     const match = await bcrypt.compare(input, hash);
     return match;
   },

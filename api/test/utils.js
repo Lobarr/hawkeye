@@ -1,5 +1,10 @@
 const assert = require("chai").assert;
 const Utils = require("../helpers/utils");
+const dotenv = require("dotenv").config();
+const mongoose = require("mongoose").connect(process.env.DB, {
+  useMongoClient: true,
+  promiseLibrary: global.Promise
+});
 
 describe("Test for utils.js", () => {
   describe("Utils.hash()", () => {
@@ -13,11 +18,11 @@ describe("Test for utils.js", () => {
       }
     });
   });
-  describe("Utils.compareHash()", () => {
+  describe("Utils.validatePassword()", () => {
     it("should return true", async () => {
       try {
         const hash = await Utils.hash("test");
-        const compare = await Utils.compareHash("test", hash);
+        const compare = await Utils.validatePassword("test", hash);
         assert.isTrue(compare, `didn't return true`);
       } catch (error) {
         assert.isOk(false, "threw an error");
@@ -27,7 +32,7 @@ describe("Test for utils.js", () => {
     it("should return true", async () => {
       try {
         const hash = await Utils.hash("test");
-        const compare = await Utils.compareHash("something", hash);
+        const compare = await Utils.validatePassword("something", hash);
         assert.isFalse(compare, `didn't return false`);
       } catch (error) {
         assert.isOk(false, "threw an error");
