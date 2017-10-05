@@ -7,8 +7,8 @@ This is an application that shows rtsp and rtmp streams in a web dashboard
 * Install Yarn package manager `npm install -g yarn`
 * Install dependencies `yarn install`
 * Run application (Server and Client) `yarn run start-all`
-  * Run client `yarn run start-client`
-  * Run server `yarn run start-server`
+  * To individually run client `yarn run start-client`
+  * To individually run server `yarn run start-server`
 
 Client would be running on http://localhost:3000 and Server would be running on http://localhost:3001
 
