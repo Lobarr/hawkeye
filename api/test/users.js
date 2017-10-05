@@ -1,10 +1,14 @@
 const assert = require("chai").assert;
-const User = require("../models/users");
 const dotenv = require("dotenv").config();
+const moment = require("moment");
+const { ObjectID } = require("mongodb");
 const mongoose = require("mongoose").connect(process.env.DB, {
   useMongoClient: true,
   promiseLibrary: global.Promise
 });
+
+const User = require("../models/users");
+const Utils = require("../helpers/utils");
 
 describe("Test for User.js", () => {
   describe("User.create()", () => {
@@ -117,7 +121,44 @@ describe("Test for User.js", () => {
       );
     }
   });
-  describe("Test for User.validate", () => {
+  describe("Test for User.getByID", () => {
+    it("should return user info", async () => {
+      try {
+        const beforeUser = await User.getByEmail("test@test.com");
+        const user = await User.getByID(beforeUser._id);
+      } catch (error) {
+        console.log(`Error: ${error.message}`);
+        assert.isOk(false, "threw an error");
+      }
+    });
+    it("should throw an InvalidID error", async () => {
+      try {
+        const user = await User.getByID("notExist");
+        assert.isOk(false, "didn't throw an error");
+      } catch (error) {
+        assert.strictEqual(
+          error.message,
+          "InvalidID",
+          "didn't return right error message"
+        );
+      }
+    });
+    it("should throw a NotFound error", async () => {
+      try {
+        const user = await User.getByID(
+          ObjectID.createFromTime(moment().unix())
+        );
+        assert.isOk(false, "didn't throw an error");
+      } catch (error) {
+        assert.strictEqual(
+          error.message,
+          "NotFound",
+          "didn't return right error message"
+        );
+      }
+    });
+  });
+  describe("Test for User.validate()", () => {
     it("should return token", async () => {
       try {
         const token = await User.validate("testUpdated", "test");
@@ -149,6 +190,28 @@ describe("Test for User.js", () => {
           "InvalidUser",
           "didn't return right error message"
         );
+      }
+    });
+  });
+  describe("Test for User.validateToken", () => {
+    it("should return true", async () => {
+      try {
+        const { token } = await User.getByEmail("test@test.com");
+        let match = await User.validateToken(token);
+        assert.isTrue(match, "didn't return true");
+      } catch (error) {
+        console.log(`Error: ${error.message}`);
+        assert.isOk(false, "threw an error");
+      }
+    });
+    it("should return false", async () => {
+      try {
+        let token = await Utils.generateToken("testUpdated");
+        let match = await User.validateToken(token);
+        assert.isFalse(match, "didn't return false");
+      } catch (error) {
+        console.log(`Error: ${error.message}`);
+        assert.isOk(false, "threw an error");
       }
     });
   });

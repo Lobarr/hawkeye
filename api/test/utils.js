@@ -1,10 +1,11 @@
 const assert = require("chai").assert;
-const Utils = require("../helpers/utils");
 const dotenv = require("dotenv").config();
 const mongoose = require("mongoose").connect(process.env.DB, {
   useMongoClient: true,
   promiseLibrary: global.Promise
 });
+
+const Utils = require("../helpers/utils");
 
 describe("Test for utils.js", () => {
   describe("Utils.hash()", () => {

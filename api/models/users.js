@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv").config();
 const Utils = require("../helpers/utils");
 
 const userSchema = mongoose.Schema({
@@ -32,7 +34,7 @@ const User = {
 	 * @param {string} payload.username - The username of the the user
 	 * @param {string} payload.email - The email of the user 
 	 * @param {string} payload.password - The password to be written to the db
-   * @throws {string}
+   * @throws {string} - Duplicate username/email attempted
    */
   async create(payload) {
     try {
@@ -54,8 +56,8 @@ const User = {
 
   /**
    * 
-   * 
-   * @param {string} username - used to update a user's username
+   * @param {string} oldUsername - current username to update
+   * @param {string} newUsername - used to update a user's username
    */
   async updateUsername(oldUsername, newUsername) {
     await UserModel.findOneAndUpdate(
@@ -79,7 +81,7 @@ const User = {
    * 
    * @param {string} username
    * @returns {object} - user info
-   * @throws {string}
+   * @throws {string} - NotFound
    */
   async getByUsername(username) {
     const user = await UserModel.findOne(
@@ -93,6 +95,30 @@ const User = {
     }
   },
 
+  /**
+   * 
+   * 
+   * @param {string} ID ObjectId of user to find
+   * @returns {object} - user info
+   * @throws {string} - NotFound
+   */
+
+  async getByID(ID) {
+    if (mongoose.Types.ObjectId.isValid(ID)) {
+      const user = await UserModel.findById(ID, {
+        username: 1,
+        email: 1,
+        token: 1
+      });
+      if (user) {
+        return user;
+      } else {
+        throw new Error("NotFound");
+      }
+    } else {
+      throw new Error("InvalidID");
+    }
+  },
   /**
    * 
    * 
@@ -133,7 +159,17 @@ const User = {
       throw new Error("InvalidUser");
     }
   },
-
+  /**
+   * 
+   * 
+   * @param {string} token - user assigned jwt token
+   * @returns {boolean} - true if token matches with verified user
+   */
+  async validateToken(token) {
+    const { username } = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.getByUsername(username);
+    return user && user.token === token ? true : false;
+  },
   /**
    * 
    * 

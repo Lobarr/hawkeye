@@ -1,8 +1,7 @@
 {
   "name": "hawkeye",
   "version": "0.1.0",
-  "description":
-    "A web application that allows users view rtsp and rtmp streams for ip cameras",
+  "description": "A web application that allows users view rtsp and rtmp streams for ip cameras",
   "main": "index.js",
   "private": true,
   "repository": {
@@ -13,29 +12,45 @@
     "node": "8.5.0"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.15.5",
     "helmet": "^3.8.1",
+    "history": "^4.7.2",
     "jsonwebtoken": "^8.0.1",
+    "moment": "^2.18.1",
+    "mongodb": "^2.2.31",
     "mongoose": "^4.11.13",
     "morgan": "^1.8.2",
+    "node-sass-chokidar": "^0.0.3",
+    "path": "^0.12.7",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-scripts": "1.0.13"
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.13",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
   },
   "scripts": {
-    "start-server": "node index.js",
+    "start-all": "npm-run-all -p start-server start-client watch-css",
+    "start-server": "nodemon index.js",
     "test-server": "mocha .\\api\\test",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start-client": "react-scripts start",
+    "build-client": "react-scripts build",
+    "test-client": "react-scripts test --env=jsdom",
+    "eject-client": "react-scripts eject"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "mocha": "^3.5.3"
+    "mocha": "^3.5.3",
+    "npm-run-all": "^4.1.1"
   }
 }
