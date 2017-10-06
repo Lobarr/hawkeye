@@ -1,7 +1,8 @@
+require("dotenv").config();
 const assert = require("chai").assert;
-const dotenv = require("dotenv").config();
 const moment = require("moment");
 const { ObjectID } = require("mongodb");
+console.log(process.env.DB);
 const mongoose = require("mongoose").connect(process.env.DB, {
   useMongoClient: true,
   promiseLibrary: global.Promise
@@ -44,12 +45,15 @@ describe("Test for User.js", () => {
       try {
         const user = await User.getByUsername("test");
         await User.updateToken("test");
-        const updated = await User.getByUsername("test");
-        assert.notStrictEqual(
-          user.token,
-          updated.token,
-          "didn't update the token"
-        );
+        // wait 500ms to make sure update took place
+        setTimeout(async () => {
+          const updated = await User.getByUsername("test");
+          assert.notStrictEqual(
+            user.token,
+            updated.token,
+            "didn't update the token"
+          );
+        }, 500);
       } catch (error) {
         console.log(`Error: ${error.message}`);
         assert.isOk(false, "threw an error");
@@ -60,8 +64,7 @@ describe("Test for User.js", () => {
     it("should update user's username", async () => {
       try {
         const update = "testUpdated";
-        await User.updateUsername("test", update);
-        const user = await User.getByUsername("testUpdated");
+        const user = await User.updateUsername("test", update);
         assert.strictEqual(
           user.username,
           update,
@@ -121,11 +124,13 @@ describe("Test for User.js", () => {
       );
     }
   });
-  describe("Test for User.getByID", () => {
+  describe("Test for User.getByID()", () => {
     it("should return user info", async () => {
       try {
         const beforeUser = await User.getByEmail("test@test.com");
         const user = await User.getByID(beforeUser._id);
+        assert.isObject(user, "didn't return an object");
+        assert.notExists(user.password, "return password as part of user");
       } catch (error) {
         console.log(`Error: ${error.message}`);
         assert.isOk(false, "threw an error");
@@ -193,7 +198,7 @@ describe("Test for User.js", () => {
       }
     });
   });
-  describe("Test for User.validateToken", () => {
+  describe("Test for User.validateToken()", () => {
     it("should return true", async () => {
       try {
         const { token } = await User.getByEmail("test@test.com");

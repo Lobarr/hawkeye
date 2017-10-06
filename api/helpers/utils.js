@@ -1,6 +1,6 @@
+require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv").config();
 
 const Utils = {
   /**
@@ -34,9 +34,7 @@ const Utils = {
    * @returns {string} - Token
    */
   async generateToken(username) {
-    const payload = {
-      username
-    };
+    const payload = { username };
     return jwt.sign(payload, process.env.JWT_SECRET, {
       algorithm: "HS256"
     });

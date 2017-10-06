@@ -64,6 +64,8 @@ const User = {
       { username: oldUsername },
       { username: newUsername }
     );
+    await User.updateToken(newUsername);
+    return User.getByUsername(newUsername);
   },
 
   /**
@@ -167,6 +169,7 @@ const User = {
    */
   async validateToken(token) {
     const { username } = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(username);
     const user = await User.getByUsername(username);
     return user && user.token === token ? true : false;
   },
