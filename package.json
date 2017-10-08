@@ -48,7 +48,7 @@
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css":
       "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "client": "npm-run-all -s start-client watch-css",
+    "client": "npm-run-all -p start-client watch-css",
     "start-client": "react-scripts start",
     "build-client": "react-scripts build",
     "test-client": "react-scripts test --env=jsdom"
