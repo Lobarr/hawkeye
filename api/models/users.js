@@ -76,6 +76,7 @@ const User = {
   async updateToken(username) {
     const newToken = await Utils.generateToken(username);
     await UserModel.findOneAndUpdate({ username }, { token: newToken });
+    return newToken;
   },
 
   /**
@@ -141,7 +142,9 @@ const User = {
   },
 
   /**
-   * 
+   * validates the input username and password matches that of a user 
+   * then updates the user's token so only one session can be made by a user 
+   * at any time
    * 
    * @param {string} username 
    * @param {string} password 
@@ -153,7 +156,8 @@ const User = {
     if (user) {
       const match = await Utils.validatePassword(password, user.password);
       if (match) {
-        return user.token;
+        const token = await User.updateToken(user.username);
+        return token;
       } else {
         throw new Error("Unauthorized");
       }

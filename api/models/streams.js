@@ -115,7 +115,7 @@ const Stream = {
    * 
    * @param {any} ID 
    */
-  async delete(ID) {
+  async remove(ID) {
     if (mongoose.Types.ObjectId.isValid(ID)) {
       await StreamsModel.findByIdAndRemove(ID);
     } else {
