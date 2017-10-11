@@ -22,7 +22,9 @@ app.use(morgan("common"));
 //! routes
 app.use(require("./api/router/status"));
 app.use(require("./api/router/auth"));
+app.use(require("./api/router/user"));
+app.use(require("./api/router/stream"));
 
 app.listen(port, () => {
-  console.warn(`Hawkeye server running on port ${port}`);
+  console.log(`Hawkeye server running on port ${port}`);
 });

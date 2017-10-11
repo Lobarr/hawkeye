@@ -1,4 +1,4 @@
-const authorization = require("express").Router();
+const auth = require("express").Router();
 const Users = require("../models/users");
 
 /**
@@ -21,10 +21,10 @@ const Users = require("../models/users");
  * @apiError (Unauthorized 401) {string} status Error message
  * @apiErrorExample {json} Example data on error:
  * {
- *  "status": "some error message"
+ *  "status": "IncompleteRequest"
  * }
  */
-authorization.post("/api/v1/login", async (req, res) => {
+auth.post("/api/v1/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     if (username && password) {
@@ -32,7 +32,7 @@ authorization.post("/api/v1/login", async (req, res) => {
       res.send({ token });
     } else {
       res.status(400).send({
-        status: "Incomplete Request"
+        status: "IncompleteRequest"
       });
     }
   } catch (error) {
@@ -56,6 +56,49 @@ authorization.post("/api/v1/login", async (req, res) => {
   }
 });
 
-authorization.post("/api/v1/signup", async (req, res) => {});
+/**
+ * @api {post} /api/v1/signup Signup to the system
+ * @apiName Signup
+ * @apiGroup Auth
+ * @apiVersion 0.0.1
+ * @apiParam {string} username Username
+ * @apiParam {string} password Password
+ * @apiParam {string} email Email
+ * @apiParamExample {json} Example request 
+ * {
+ *  "username": "example",
+ *  "password": "example"
+ *  "email": "test@test.com",
+ * }
+ * @apiSuccess {string} status Status of the request
+ * @apiSuccessExample Example data on success:
+ * {
+ *  "status": "Success"
+ * }
+ * @apiError (Bad Request 400) {string} status Error message
+ * @apiErrorExample {json} Example data on error:
+ * {
+ *  "status": "IncompleteRequest"
+ * }
+ */
+auth.post("/api/v1/signup", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    if (username && email && password) {
+      await Users.create({ username, email, password });
+      res.send({
+        status: "Success"
+      });
+    } else {
+      res.status(400).send({
+        status: "IncompleteRequest"
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      status: error.message
+    });
+  }
+});
 
-module.exports = authorization;
+module.exports = auth;
