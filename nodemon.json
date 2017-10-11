@@ -1,0 +1,3 @@
+{
+  "ignore": ["apidoc/*", "src/*", "api/test/", "workspace.js"]
+}

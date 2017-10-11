@@ -1,7 +1,8 @@
 {
   "name": "hawkeye",
   "version": "0.1.0",
-  "description": "A web application that allows users view rtsp and rtmp streams for ip cameras",
+  "description":
+    "A web application that allows users view rtsp and rtmp streams for ip cameras",
   "main": "index.js",
   "private": true,
   "repository": {
@@ -30,7 +31,6 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
-    "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.13",
     "redux": "^3.7.2",
@@ -38,18 +38,25 @@
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
-    "start-all": "npm-run-all -p start-server start-client watch-css",
-    "start-server": "nodemon index.js",
-    "test-server": "mocha .\\api\\test",
+    "start": "npm-run-all -p apidoc client server",
+    "server": "nodemon index.js",
+    "test-server": "mocha ./api/test",
+    "apidoc": "npm-run-all -p watch-apidoc start-apidoc",
+    "watch-apidoc": "nodemon --exec yarn run build-apidoc",
+    "start-apidoc": "live-server --port=5000 --quiet ./apidoc",
+    "build-apidoc": "apidoc -i ./api/router -o ./apidoc",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start-client": "npm-run-all start-client-pre watch-css",
-    "start-client-pre": "react-scripts start",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "client": "npm-run-all -p start-client watch-css",
+    "start-client": "react-scripts start",
     "build-client": "react-scripts build",
     "test-client": "react-scripts test --env=jsdom"
   },
   "devDependencies": {
+    "apidoc": "^0.17.6",
     "chai": "^4.1.2",
+    "live-server": "^1.2.0",
     "mocha": "^3.5.3",
     "nodemon": "^1.12.1",
     "npm-run-all": "^4.1.1"

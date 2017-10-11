@@ -78,6 +78,14 @@ const Stream = {
     });
     await StreamsModel.findByIdAndUpdate(payload.stream, params);
   },
+  async getStream(ID) {
+    if (mongoose.Types.ObjectId.isValid(ID)) {
+      const stream = await StreamsModel.findById(ID);
+      return stream;
+    } else {
+      throw new Error("InvalidID");
+    }
+  },
 
   /**
    * 
@@ -88,7 +96,7 @@ const Stream = {
    */
   async getUserStreams(ID) {
     if (mongoose.Types.ObjectId.isValid(ID)) {
-      let streams = await StreamsModel.find(
+      const streams = await StreamsModel.find(
         { owner: ID },
         { name: 1, url: 1, location: 1, resolution: 1 }
       );
@@ -107,7 +115,7 @@ const Stream = {
    * 
    * @param {any} ID 
    */
-  async delete(ID) {
+  async remove(ID) {
     if (mongoose.Types.ObjectId.isValid(ID)) {
       await StreamsModel.findByIdAndRemove(ID);
     } else {

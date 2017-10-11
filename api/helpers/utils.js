@@ -1,6 +1,7 @@
+require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv").config();
+const Users = require("../models/users");
 
 const Utils = {
   /**
@@ -34,12 +35,32 @@ const Utils = {
    * @returns {string} - Token
    */
   async generateToken(username) {
-    const payload = {
-      username
-    };
+    const payload = { username };
     return jwt.sign(payload, process.env.JWT_SECRET, {
       algorithm: "HS256"
     });
+  },
+  middlewares: {
+    async auth(req, res, next) {
+      try {
+        const token = req.headers["x-hawkeye-token"];
+        if (!token) {
+          return res.status(401).send({
+            status: "No token passed"
+          });
+        }
+        const { username } = jwt.decode(token);
+        req.user = {
+          username
+        };
+        return next();
+      } catch (error) {
+        console.log(error.message);
+        return res.status(401).send({
+          status: "Unauthorized"
+        });
+      }
+    }
   }
 };
 

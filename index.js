@@ -18,11 +18,13 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
 app.use(morgan("common"));
-// app.use(express.static(path.resolve(__dirname, "public")));
 
 //! routes
-app.use(require("./api/router/open"));
+app.use(require("./api/router/status"));
+app.use(require("./api/router/auth"));
+app.use(require("./api/router/user"));
+app.use(require("./api/router/stream"));
 
 app.listen(port, () => {
-  console.warn(`Hawkeye server running on port ${port}`);
+  console.log(`Hawkeye server running on port ${port}`);
 });

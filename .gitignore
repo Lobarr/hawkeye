@@ -8,6 +8,7 @@
 
 # production
 /build
+/apidoc
 
 # misc
 .DS_Store
