@@ -19,11 +19,13 @@ app.use(helmet());
 app.use(cors());
 app.use(morgan("common"));
 
-//serve static html
-app.use(express.static(path.join(__dirname, "/client/build")));
-app.get("/", (req, res) => {
-  res.send("./client/build/index.html");
-});
+// serves react production build
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/client/build")));
+  app.get("/", (req, res) => {
+    res.send("./client/build/index.html");
+  });
+}
 
 //! routes
 app.use(require("./api/router/status"));

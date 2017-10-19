@@ -16,3 +16,4 @@ Client would be running on http://localhost:3000, Server would be running on htt
 
 #### Note: Saving would automatically restart the application
 
+#### Note: You'll need a .env file I have so when you clone this repo, ask me for it
