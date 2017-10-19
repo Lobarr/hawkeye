@@ -1,4 +1,4 @@
-// const express = require("express");
+const express = require("express");
 const app = require("express")();
 const dotenv = require("dotenv").config();
 const bodyParser = require("body-parser");
@@ -18,6 +18,12 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
 app.use(morgan("common"));
+
+//serve static html
+app.use(express.static(path.join(__dirname, "/client/build")));
+app.get("/", (req, res) => {
+  res.send("./client/build/index.html");
+});
 
 //! routes
 app.use(require("./api/router/status"));
