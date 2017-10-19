@@ -28,7 +28,7 @@ const StreamsModel = mongoose.model("stream", streamSchema);
 //! Logic is kept here
 const Stream = {
   /**
-   * 
+   * Creates a stream for a user
    * 
    * @param {object} payload 
    * @param {string} payload.name - name of stream
@@ -55,7 +55,7 @@ const Stream = {
   },
   //! Make everything show from the front end when updating
   /**
-   * 
+   * Updates a stream
    * 
    * @param {object} payload 
    * @param {string} payload.stream - stream to be updated
@@ -88,7 +88,7 @@ const Stream = {
   },
 
   /**
-   * 
+   * Gets all streams for a user 
    * 
    * @param {string} ID - id of user to get streams
    * @returns {array} - array of user streams
@@ -100,7 +100,7 @@ const Stream = {
         { owner: ID },
         { name: 1, url: 1, location: 1, resolution: 1 }
       );
-      if (streams) {
+      if (streams.length !== 0) {
         return streams;
       } else {
         throw new Error("NoStreams");
@@ -111,9 +111,10 @@ const Stream = {
   },
 
   /**
-   * 
+   * Removes a stream
    * 
    * @param {any} ID 
+   * @throws {string} 
    */
   async remove(ID) {
     if (mongoose.Types.ObjectId.isValid(ID)) {

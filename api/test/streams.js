@@ -57,8 +57,7 @@ describe("Test for Stream.js", () => {
     });
     it("should get all streams a user has", async () => {
       try {
-        console.log();
-        // const user = await Users.getByUsername(userTestCase.username);
+        const user = await Users.getByUsername(userTestCase.username);
         const userStreams = await Streams.getUserStreams(user._id);
         assert.isArray(userStreams, "didn't return an array");
         assert.isNotEmpty(userStreams, "returned empty array");
@@ -70,8 +69,10 @@ describe("Test for Stream.js", () => {
     it("should throw NoStreams", async () => {
       try {
         const streams = await Streams.getUserStreams(noStreamUser._id);
+        console.log(streams);
         assert.isOk(false, "didn't throw an error");
       } catch (error) {
+        console.log(`Error: ${error.message}`);
         assert.strictEqual(
           error.message,
           "NoStreams",
@@ -84,6 +85,7 @@ describe("Test for Stream.js", () => {
         const streams = await Streams.getUserStreams("invalidid");
         assert.isOk(false, "didn't throw an error");
       } catch (error) {
+        console.log(`Error: ${error.message}`);
         assert.strictEqual(
           error.message,
           "InvalidID",
@@ -95,7 +97,7 @@ describe("Test for Stream.js", () => {
   describe("Test for Streams.getStream()", () => {
     let userStreams = [];
     before(async () => {
-      userStreams = Streams.getUserStreams(user._id);
+      userStreams = await Streams.getUserStreams(user._id);
     });
     it("should return a stream", async () => {
       try {
@@ -111,7 +113,7 @@ describe("Test for Stream.js", () => {
   describe("Test for Streams.update()", () => {
     let userStreams = [];
     before(async () => {
-      userStreams = Streams.getUserStreams(user._id);
+      userStreams = await Streams.getUserStreams(user._id);
     });
     it("should update a stream", async () => {
       try {
@@ -131,6 +133,7 @@ describe("Test for Stream.js", () => {
         await Streams.update({});
         assert.isOk(false, "didn't throw and error");
       } catch (error) {
+        console.log(`Error: ${error.message}`);
         assert.strictEqual(
           error.message,
           "StreamNotSpecified",
@@ -142,11 +145,11 @@ describe("Test for Stream.js", () => {
   describe("Test for Streams.remove()", () => {
     let userStreams = [];
     before(async () => {
-      userStreams = Streams.getUserStreams(user._id);
+      userStreams = await Streams.getUserStreams(user._id);
     });
     it("should remove the stream", async () => {
       try {
-        Streams.remove(userStreams[0]._id);
+        await Streams.remove(userStreams[0]._id);
         assert.isOk(true);
       } catch (error) {
         console.log(`Error: ${error.message}`);
@@ -155,9 +158,10 @@ describe("Test for Stream.js", () => {
     });
     it("should throw InvalidID", async () => {
       try {
-        Streams.remove("notID");
+        await Streams.remove("notID");
         assert.isOk(false, "didn't throw an error");
       } catch (error) {
+        console.log(`Error: ${error.message}`);
         assert.strictEqual(
           error.message,
           "InvalidID",
