@@ -28,7 +28,7 @@ const UserModel = mongoose.model("user", userSchema);
 //! Logic is kept here
 const User = {
   /**
-	 * 
+	 * Creates a user
 	 * 
 	 * @param {object} payload 
 	 * @param {string} payload.username - The username of the the user
@@ -55,7 +55,7 @@ const User = {
   },
 
   /**
-   * 
+   * Updates a user's username
    * @param {string} oldUsername - current username to update
    * @param {string} newUsername - used to update a user's username
    */
@@ -69,7 +69,7 @@ const User = {
   },
 
   /**
-   * 
+   * Updates a user's token 
    * 
    * @param {string} username - username of user to be updated
    */
@@ -80,7 +80,7 @@ const User = {
   },
 
   /**
-   * 
+   * Gets a user by username
    * 
    * @param {string} username
    * @returns {object} - user info
@@ -99,7 +99,7 @@ const User = {
   },
 
   /**
-   * 
+   * Gets a user by ID
    * 
    * @param {string} ID ObjectId of user to find
    * @returns {object} - user info
@@ -123,7 +123,7 @@ const User = {
     }
   },
   /**
-   * 
+   * Gets a user by email
    * 
    * @param {string} email 
    * @returns {object} = user info
@@ -178,7 +178,7 @@ const User = {
     return user && user.token === token ? true : false;
   },
   /**
-   * 
+   * Removes a user
    * 
    * @param {string} username - user to be removed
    */
