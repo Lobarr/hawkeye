@@ -5,8 +5,8 @@ const Users = require("../models/users");
 
 const Utils = {
   /**
-   * 
-   * 
+   * Hashes an input
+   *
    * @param {string} password - password to be hashed
    * @return {string} hash
    */
@@ -17,8 +17,8 @@ const Utils = {
   },
 
   /**
-   * 
-   * 
+   * Used to validate if hash matches input
+   *
    * @param {string} input - password that is to be checked against a hash
    * @param {string} hash - hash from the db
    * @returns {boolean} - true if password matches
@@ -29,9 +29,9 @@ const Utils = {
   },
 
   /**
-   * 
-   * 
-   * @param {string} username - used to generate username signed token 
+   * Generates a token
+   *
+   * @param {string} username - used to generate username signed token
    * @returns {string} - Token
    */
   async generateToken(username) {
@@ -50,9 +50,7 @@ const Utils = {
           });
         }
         const { username } = jwt.decode(token);
-        req.user = {
-          username
-        };
+        req.user = { username };
         return next();
       } catch (error) {
         console.log(error.message);

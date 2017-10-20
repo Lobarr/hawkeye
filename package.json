@@ -34,7 +34,8 @@
     "watch-apidoc": "nodemon --exec yarn run build-apidoc",
     "start-apidoc": "live-server --port=5000 --quiet ./apidoc",
     "build-apidoc": "apidoc -i ./api/router -o ./apidoc",
-    "client": "cd ./client && yarn run client"
+    "client": "cd ./client && yarn run client",
+    "build-client": "cd ./client && yarn run build"
   },
   "devDependencies": {
     "apidoc": "^0.17.6",
