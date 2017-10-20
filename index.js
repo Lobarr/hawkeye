@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
-app.use(morgan("common"));
+app.use(morgan("short"));
 
 // serves react production build
 if (process.env.NODE_ENV === "production") {

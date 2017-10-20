@@ -69,14 +69,18 @@ const Stream = {
     if (!payload.stream) {
       throw new Error("StreamNotSpecified");
     }
-    const keys = ["name", "url", "location", "resolution"];
-    let params = {};
-    keys.forEach(key => {
-      if (payload[key] !== undefined) {
-        params[key] = payload[key];
-      }
-    });
-    await StreamsModel.findByIdAndUpdate(payload.stream, params);
+    if (mongoose.Types.ObjectId.isValid(payload.stream)) {
+      const keys = ["name", "url", "location", "resolution"];
+      let params = {};
+      keys.forEach(key => {
+        if (payload[key] !== undefined) {
+          params[key] = payload[key];
+        }
+      });
+      await StreamsModel.findByIdAndUpdate(payload.stream, params);
+    } else {
+      throw new Error("InvalidID");
+    }
   },
   async getStream(ID) {
     if (mongoose.Types.ObjectId.isValid(ID)) {
