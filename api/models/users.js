@@ -183,6 +183,7 @@ const User = {
    * @param {string} username - user to be removed
    */
   async remove(username) {
+    //!TODO: remove the users streams
     await UserModel.findOneAndRemove({ username });
   }
 };

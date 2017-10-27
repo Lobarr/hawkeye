@@ -18,7 +18,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
-app.use(morgan("short"));
+
+// logging requests
+if (process.env.NODE_ENV === "dev") {
+  app.use(morgan("short"));
+}
 
 // serves react production build
 if (process.env.NODE_ENV === "production") {

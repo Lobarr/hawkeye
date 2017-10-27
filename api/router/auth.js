@@ -31,26 +31,18 @@ auth.post("/api/v1/login", async (req, res) => {
       const token = await Users.validate(username, password);
       res.send({ token });
     } else {
-      res.status(400).send({
-        status: "IncompleteRequest"
-      });
+      res.status(400).send({ status: "IncompleteRequest" });
     }
   } catch (error) {
     switch (error.message) {
       case "Unauthorized":
-        res.status(401).send({
-          status: error.message
-        });
+        res.status(401).send({ status: error.message });
         break;
       case "InvalidUser":
-        res.status(401).send({
-          status: error.message
-        });
+        res.status(401).send({ status: error.message });
         break;
       default:
-        res.status(500).send({
-          status: error.message
-        });
+        res.status(500).send({ status: error.message });
         break;
     }
   }
@@ -86,18 +78,12 @@ auth.post("/api/v1/signup", async (req, res) => {
     const { username, email, password } = req.body;
     if (username && email && password) {
       await Users.create({ username, email, password });
-      res.send({
-        status: "Success"
-      });
+      res.send({ status: "Success" });
     } else {
-      res.status(400).send({
-        status: "IncompleteRequest"
-      });
+      res.status(400).send({ status: "IncompleteRequest" });
     }
   } catch (error) {
-    res.status(500).send({
-      status: error.message
-    });
+    res.status(500).send({ status: error.message });
   }
 });
 

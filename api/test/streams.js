@@ -1,5 +1,5 @@
+require("dotenv").config();
 const assert = require("chai").assert;
-const dotenv = require("dotenv").config();
 const mongoose = require("mongoose").connect(process.env.DB, {
   useMongoClient: true,
   promiseLibrary: global.Promise
@@ -14,9 +14,9 @@ describe("Test for Stream.js", () => {
     email: "test@stream.com",
     password: "test"
   };
-  const streamTestCast = {
+  const streamTestCase = {
     name: "testStream",
-    url: "testUrl",
+    url: "rtmp://testUrl",
     location: "testLocation",
     resolution: "1080"
   };
@@ -31,9 +31,8 @@ describe("Test for Stream.js", () => {
   describe("Test for Streams.create()", () => {
     it("should create a stream", async () => {
       try {
-        // const user = await Users.getByUsername(userTestCase.username);
         await Streams.create(
-          Object.assign({}, streamTestCast, { owner: user._id })
+          Object.assign({}, streamTestCase, { owner: user._id })
         );
       } catch (error) {
         console.log(`Error: ${error.message}`);
@@ -64,20 +63,6 @@ describe("Test for Stream.js", () => {
       } catch (error) {
         console.log(`Error: ${error.message}`);
         assert.isOk(false, "threw an error");
-      }
-    });
-    it("should throw NoStreams", async () => {
-      try {
-        const streams = await Streams.getUserStreams(noStreamUser._id);
-        console.log(streams);
-        assert.isOk(false, "didn't throw an error");
-      } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.strictEqual(
-          error.message,
-          "NoStreams",
-          "didn't return the right error message"
-        );
       }
     });
     it("should throw InvalidID", async () => {
@@ -118,7 +103,7 @@ describe("Test for Stream.js", () => {
     it("should update a stream", async () => {
       try {
         await Streams.update({
-          stream: userStreams[0]._id,
+          id: userStreams[0]._id,
           name: "updatesStreamName",
           location: "rez"
         });

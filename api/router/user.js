@@ -1,11 +1,12 @@
 const user = require("express").Router();
 const Users = require("../models/users");
-const Utils = require("../helpers/utils");
+const Streams = require("../models/streams");
+const Middlewares = require("../helpers/middlewares");
 
 // TODO: update endpoint
 // TODO: remove user endpoint
 
-user.use(Utils.middlewares.auth); // auth middleware
+user.use(Middlewares.auth); // auth middleware
 
 /**
  * @api {get} /api/v1/user/me Get user info
@@ -39,9 +40,7 @@ user.get("/api/v1/user/me", async (req, res) => {
     );
     res.send({ _id, username, email });
   } catch (error) {
-    res.status(500).send({
-      status: error.message
-    });
+    res.status(500).send({ status: error.message });
   }
 });
 
@@ -68,14 +67,14 @@ user.get("/api/v1/user/me", async (req, res) => {
  */
 user.delete("/api/v1/user/me", async (req, res) => {
   try {
+    const streams = await Streams.getUserStreams(req.user._id);
+    streams.forEach(async stream => {
+      await Streams.remove(stream._id);
+    });
     await Users.remove(req.user.username);
-    res.send({
-      status: "Success"
-    });
+    res.send({ status: "Success" });
   } catch (error) {
-    res.status(500).send({
-      status: error.message
-    });
+    res.status(500).send({ status: error.message });
   }
 });
 
@@ -87,7 +86,7 @@ user.delete("/api/v1/user/me", async (req, res) => {
  * @apiParam {string} username New Username
  * @apiParamExample {json} Example Request
  * {
- *  "username": "somethingNew"
+ *  "username": "SomethingNew"
  * }
  * @apiHeader {string} x-hawkeye-token Users unique token
  * @apiHeaderExample {json} Header-Example:
@@ -119,9 +118,7 @@ user.patch("/api/v1/user/me", async (req, res) => {
       res.send(user);
     }
   } catch (error) {
-    res.status(500).send({
-      status: error.message
-    });
+    res.status(500).send({ status: error.message });
   }
 });
 
