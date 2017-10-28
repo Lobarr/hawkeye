@@ -5,11 +5,11 @@ const { ObjectID } = require("mongodb");
 console.log(process.env.DB);
 const mongoose = require("mongoose").connect(process.env.DB, {
   useMongoClient: true,
-  promiseLibrary: global.Promise
+  promiseLibrary: require("bluebird")
 });
 
-const User = require("../models/users");
-const Utils = require("../helpers/utils");
+const User = require("../../models/users");
+const Utils = require("../../helpers/utils");
 
 describe("Test for User.js", () => {
   describe("User.create()", () => {
@@ -88,14 +88,14 @@ describe("Test for User.js", () => {
       }
     });
   });
-  it("should return NotFound", async () => {
+  it("should return UserNotFound", async () => {
     try {
       const user = await User.getByUsername("notExist");
       assert.isOk(false, "didn't throw error");
     } catch (error) {
       assert.strictEqual(
         error.message,
-        "NotFound",
+        "UserNotFound",
         "didn't return right error message"
       );
     }
@@ -112,14 +112,14 @@ describe("Test for User.js", () => {
       }
     });
   });
-  it("should return NotFound", async () => {
+  it("should return UserNotFound", async () => {
     try {
       const user = await User.getByEmail("notExist");
       assert.isOk(false, "didn't throw error");
     } catch (error) {
       assert.strictEqual(
         error.message,
-        "NotFound",
+        "UserNotFound",
         "didn't return right error message"
       );
     }
@@ -148,7 +148,7 @@ describe("Test for User.js", () => {
         );
       }
     });
-    it("should throw a NotFound error", async () => {
+    it("should throw a UserNotFound error", async () => {
       try {
         const user = await User.getByID(
           ObjectID.createFromTime(moment().unix())
@@ -157,7 +157,7 @@ describe("Test for User.js", () => {
       } catch (error) {
         assert.strictEqual(
           error.message,
-          "NotFound",
+          "UserNotFound",
           "didn't return right error message"
         );
       }

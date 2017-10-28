@@ -1,4 +1,11 @@
 const mongoose = require("mongoose");
+const Agenda = require("agenda");
+const agenda = new Agenda({
+  db: {
+    address: process.env.DB
+  },
+  processEvery: "1 minute"
+});
 
 const streamSchema = mongoose.Schema({
   name: {
@@ -113,7 +120,6 @@ const Stream = {
       throw new Error("InvalidID");
     }
   },
-
   /**
    * Removes a stream
    * 

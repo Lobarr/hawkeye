@@ -2,11 +2,11 @@ require("dotenv").config();
 const assert = require("chai").assert;
 const mongoose = require("mongoose").connect(process.env.DB, {
   useMongoClient: true,
-  promiseLibrary: global.Promise
+  promiseLibrary: require("bluebird")
 });
 
-const Streams = require("../models/streams");
-const Users = require("../models/users");
+const Streams = require("../../models/streams");
+const Users = require("../../models/users");
 
 describe("Test for Stream.js", () => {
   const userTestCase = {

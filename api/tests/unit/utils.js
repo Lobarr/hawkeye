@@ -1,7 +1,7 @@
 require("dotenv").config();
 const assert = require("chai").assert;
 
-const Utils = require("../helpers/utils");
+const Utils = require("../../helpers/utils");
 
 describe("Test for utils.js", () => {
   describe("Utils.hash()", () => {

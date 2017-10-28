@@ -84,7 +84,7 @@ const User = {
    * 
    * @param {string} username
    * @returns {object} - user info
-   * @throws {string} - NotFound
+   * @throws {string} - UserNotFound
    */
   async getByUsername(username) {
     const user = await UserModel.findOne(
@@ -94,7 +94,7 @@ const User = {
     if (user) {
       return user;
     } else {
-      throw new Error("NotFound");
+      throw new Error("UserNotFound");
     }
   },
 
@@ -103,7 +103,7 @@ const User = {
    * 
    * @param {string} ID ObjectId of user to find
    * @returns {object} - user info
-   * @throws {string} - NotFound
+   * @throws {string} - UserNotFound
    */
 
   async getByID(ID) {
@@ -116,7 +116,7 @@ const User = {
       if (user) {
         return user;
       } else {
-        throw new Error("NotFound");
+        throw new Error("UserNotFound");
       }
     } else {
       throw new Error("InvalidID");
@@ -137,7 +137,7 @@ const User = {
     if (user) {
       return user;
     } else {
-      throw new Error("NotFound");
+      throw new Error("UserNotFound");
     }
   },
 
@@ -183,7 +183,6 @@ const User = {
    * @param {string} username - user to be removed
    */
   async remove(username) {
-    //!TODO: remove the users streams
     await UserModel.findOneAndRemove({ username });
   }
 };

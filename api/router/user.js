@@ -1,10 +1,15 @@
+require("dotenv").config();
+const Agenda = require("agenda");
+const agenda = new Agenda({
+  db: {
+    address: process.env.DB
+  },
+  processEvery: "1 minute"
+});
 const user = require("express").Router();
 const Users = require("../models/users");
 const Streams = require("../models/streams");
 const Middlewares = require("../helpers/middlewares");
-
-// TODO: update endpoint
-// TODO: remove user endpoint
 
 user.use(Middlewares.auth); // auth middleware
 
@@ -67,10 +72,7 @@ user.get("/api/v1/user/me", async (req, res) => {
  */
 user.delete("/api/v1/user/me", async (req, res) => {
   try {
-    const streams = await Streams.getUserStreams(req.user._id);
-    streams.forEach(async stream => {
-      await Streams.remove(stream._id);
-    });
+    agenda.now("delete user streams", { id: req.user._id });
     await Users.remove(req.user.username);
     res.send({ status: "Success" });
   } catch (error) {

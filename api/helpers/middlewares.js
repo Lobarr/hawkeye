@@ -31,8 +31,8 @@ const Middlewares = {
       return next();
     } catch (error) {
       console.log(error.message);
-      return res.status(401).send({
-        status: "Unauthorized"
+      return res.status(500).send({
+        status: error.message
       });
     }
   }
