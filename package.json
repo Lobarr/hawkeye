@@ -1,7 +1,8 @@
 {
   "name": "hawkeye",
   "version": "0.1.0",
-  "description": "A web application that allows users view rtsp and rtmp streams for ip cameras",
+  "description":
+    "A web application that allows users view rtsp and rtmp streams for ip cameras",
   "main": "index.js",
   "private": true,
   "repository": {
@@ -12,8 +13,10 @@
     "node": "8.5.0"
   },
   "dependencies": {
+    "agenda": "^1.0.3",
     "axios": "^0.16.2",
     "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
@@ -24,12 +27,14 @@
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.13",
     "morgan": "^1.8.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "underscore": "^1.8.3"
   },
   "scripts": {
     "start": "npm-run-all -p apidoc client server",
     "server": "nodemon index.js",
-    "test-server": "mocha ./api/test",
+    "test-server-unit": "mocha ./api/tests/unit",
+    "test-server-integration": "mocha ./api/tests/integration",
     "apidoc": "npm-run-all -p watch-apidoc start-apidoc",
     "watch-apidoc": "nodemon --exec yarn run build-apidoc",
     "start-apidoc": "live-server --port=5000 --quiet ./apidoc",
@@ -40,6 +45,7 @@
   "devDependencies": {
     "apidoc": "^0.17.6",
     "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "live-server": "^1.2.0",
     "mocha": "^3.5.3",
     "nodemon": "^1.12.1",

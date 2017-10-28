@@ -1,4 +1,11 @@
 const mongoose = require("mongoose");
+const Agenda = require("agenda");
+const agenda = new Agenda({
+  db: {
+    address: process.env.DB
+  },
+  processEvery: "1 minute"
+});
 
 const streamSchema = mongoose.Schema({
   name: {
@@ -36,20 +43,24 @@ const Stream = {
    * @param {string} payload.location - location of the stream
    * @param {string} payload.resolution - resolution of the stream
    * @param {string} payload.owner - object id of the owner of the stream
-   * @throws {string} - IncompleteParameters
+   * @throws {string}
    */
   async create(payload) {
-    try {
-      const { name, url, location, resolution, owner } = payload;
-      const newStream = StreamsModel({
-        name,
-        url,
-        location,
-        resolution,
-        owner
-      });
-      await newStream.save();
-    } catch (error) {
+    const { name, url, location, resolution, owner } = payload;
+    if (name && url && location && resolution && owner) {
+      if (url.includes("rtmp://")) {
+        const newStream = StreamsModel({
+          name,
+          url,
+          location,
+          resolution,
+          owner
+        });
+        await newStream.save();
+      } else {
+        throw new Error("InvalidURL");
+      }
+    } else {
       throw new Error("IncompleteParameters");
     }
   },
@@ -58,7 +69,7 @@ const Stream = {
    * Updates a stream
    * 
    * @param {object} payload 
-   * @param {string} payload.stream - stream to be updated
+   * @param {string} payload.id - id of stream to be updated
    * @param {string} payload.name - name of stream
    * @param {string} payload.url - rtsp/rtmp link
    * @param {string} payload.location - location of the stream
@@ -66,17 +77,21 @@ const Stream = {
    * @throws {string} - StreamNotSpecified
    */
   async update(payload) {
-    if (!payload.stream) {
+    if (!payload.id) {
       throw new Error("StreamNotSpecified");
     }
-    const keys = ["name", "url", "location", "resolution"];
-    let params = {};
-    keys.forEach(key => {
-      if (payload[key] !== undefined) {
-        params[key] = payload[key];
-      }
-    });
-    await StreamsModel.findByIdAndUpdate(payload.stream, params);
+    if (mongoose.Types.ObjectId.isValid(payload.id)) {
+      const keys = ["name", "url", "location", "resolution"];
+      let params = {};
+      keys.forEach(key => {
+        if (payload[key] !== undefined) {
+          params[key] = payload[key];
+        }
+      });
+      await StreamsModel.findByIdAndUpdate(payload.id, params);
+    } else {
+      throw new Error("InvalidID");
+    }
   },
   async getStream(ID) {
     if (mongoose.Types.ObjectId.isValid(ID)) {
@@ -100,16 +115,11 @@ const Stream = {
         { owner: ID },
         { name: 1, url: 1, location: 1, resolution: 1 }
       );
-      if (streams.length !== 0) {
-        return streams;
-      } else {
-        throw new Error("NoStreams");
-      }
+      return streams;
     } else {
       throw new Error("InvalidID");
     }
   },
-
   /**
    * Removes a stream
    * 

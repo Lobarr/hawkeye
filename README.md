@@ -10,7 +10,8 @@ This is an application that shows rtsp and rtmp streams in a web dashboard
   * To individually run client `yarn run client`
   * To individually run server `yarn run server`
   * To individually run apidocs `yarn run apidoc`
-  * To test server logic `yarn run test-server`
+  * To run server unit tests `yarn run test-server-unit`
+  * To run server integration tests `yarn run test-server-integration`
 
 Client would be running on http://localhost:3000, Server would be running on http://localhost:3001 and apidocs would be running on http://localhost:5000
 
