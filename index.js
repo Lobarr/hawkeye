@@ -56,3 +56,5 @@ agenda.on("ready", () => {
     }
   });
 });
+
+module.exports = app; //! exported for integration testing
