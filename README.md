@@ -1,5 +1,4 @@
-[![Build Status](https://semaphoreci.com/api/v1/lobarr/hawkeye/branches/master/badge.svg)](https://semaphoreci.com/lobarr/hawkeye)
-# Hawkeye
+# Hawkeye [![Build Status](https://semaphoreci.com/api/v1/lobarr/hawkeye/branches/master/badge.svg)](https://semaphoreci.com/lobarr/hawkeye)[![Coverage Status](https://coveralls.io/repos/github/Lobarr/hawkeye/badge.svg?branch=master)](https://coveralls.io/github/Lobarr/hawkeye?branch=master)
 This is an application that shows rtsp and rtmp streams in a web dashboard
 
 ## Setup Instruction
