@@ -13,7 +13,6 @@ const Middlewares = {
    */
   async auth(req, res, next) {
     try {
-      //!FIXME: make functional
       const token = req.headers["x-hawkeye-token"];
       if (!token) {
         return res.status(401).send({
