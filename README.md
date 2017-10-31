@@ -1,5 +1,4 @@
-[![Build Status](https://semaphoreci.com/api/v1/lobarr/hawkeye/branches/master/badge.svg)](https://semaphoreci.com/lobarr/hawkeye)
-# Hawkeye
+# Hawkeye [![Build Status](https://semaphoreci.com/api/v1/lobarr/hawkeye/branches/master/badge.svg)](https://semaphoreci.com/lobarr/hawkeye)
 This is an application that shows rtsp and rtmp streams in a web dashboard
 
 ## Setup Instruction
