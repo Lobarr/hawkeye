@@ -32,6 +32,7 @@
   "scripts": {
     "start": "npm-run-all -p apidoc client server",
     "server": "nodemon index.js",
+    "test-server": "mocha ./api/tests/*",
     "test-server-unit": "mocha ./api/tests/unit",
     "test-server-integration": "mocha ./api/tests/integration",
     "apidoc": "npm-run-all -p watch-apidoc start-apidoc",

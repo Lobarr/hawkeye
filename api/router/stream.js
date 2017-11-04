@@ -42,24 +42,28 @@ stream.use(Middlewares.auth); // auth middleware
 stream.post("/api/v1/stream", async (req, res) => {
   try {
     const { name, url, location, resolution } = req.body;
-    const streams = await Streams.getUserStreams(req.user._id);
-    if (streams.length < 6) {
-      if (resolution === "720p" || resolution === "D1") {
-        await Streams.create({
-          name,
-          url,
-          location,
-          resolution,
-          owner: req.user._id
-        });
-        res.send({ status: "success" });
+    if (name && url && location && resolution) {
+      const streams = await Streams.getUserStreams(req.user._id);
+      if (streams.length < 6) {
+        if (resolution === "720p" || resolution === "D1") {
+          await Streams.create({
+            name,
+            url,
+            location,
+            resolution,
+            owner: req.user._id
+          });
+          res.send({ status: "success" });
+        } else {
+          res.status(400).send({ status: "Invalid resolution" });
+        }
       } else {
-        res.status(400).send({ status: "Invalid resolution" });
+        res.status(400).send({
+          status: "You have reached the maximum limit of streams allowed"
+        });
       }
     } else {
-      res.status(400).send({
-        status: "You have reached the maximum limit of streams allowed"
-      });
+      res.status(400).send({ status: "IncompleteRequest" });
     }
   } catch (error) {
     res.status(400).send({ status: error.message });
@@ -103,14 +107,18 @@ stream.post("/api/v1/stream", async (req, res) => {
 stream.patch("/api/v1/stream", async (req, res) => {
   try {
     const { id, name, url, location, resolution } = req.body;
-    const stream = await Streams.getStream(id);
-    const owner = await Users.getByID(stream.owner);
-    if (owner.username === req.user.username) {
-      await Streams.update({ id, name, url, location, resolution });
+    if (id && name && url && location && resolution) {
+      const stream = await Streams.getStream(id);
+      const owner = await Users.getByID(stream.owner);
+      if (owner.username === req.user.username) {
+        await Streams.update({ id, name, url, location, resolution });
+      } else {
+        res.status(401).send({ status: "Unauthorized" });
+      }
+      res.send({ status: "success" });
     } else {
-      res.status(401).send({ status: "Unauthorized" });
+      res.status(400).send({ status: "IncompleteRequest" });
     }
-    res.send({ status: "success" });
   } catch (error) {
     res.status(500).send({ status: error.message });
   }
@@ -149,12 +157,16 @@ stream.patch("/api/v1/stream", async (req, res) => {
 stream.get("/api/v1/stream/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const stream = await Streams.getStream(id);
-    const owner = await Users.getByID(stream.owner);
-    if (owner.username === req.user.username) {
-      res.send(_.omit(stream._doc, "owner", "__v"));
+    if (id) {
+      const stream = await Streams.getStream(id);
+      const owner = await Users.getByID(stream.owner);
+      if (owner.username === req.user.username) {
+        res.send(_.omit(stream._doc, "owner", "__v"));
+      } else {
+        res.status(401).send({ status: "Unauthorized" });
+      }
     } else {
-      res.status(401).send({ status: "Unauthorized" });
+      res.status(400).send({ status: "IncompleteRequest" });
     }
   } catch (error) {
     res.status(500).send({ status: error.message });
@@ -186,13 +198,17 @@ stream.get("/api/v1/stream/:id", async (req, res) => {
 stream.delete("/api/v1/stream/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const stream = await Streams.getStream(id);
-    const owner = await Users.getByID(stream.owner);
-    if (owner.username === req.user.username) {
-      await Streams.remove(id);
-      res.send({ status: "success" });
+    if (id) {
+      const stream = await Streams.getStream(id);
+      const owner = await Users.getByID(stream.owner);
+      if (owner.username === req.user.username) {
+        await Streams.remove(id);
+        res.send({ status: "success" });
+      } else {
+        res.status(401).send({ status: "Unauthorized" });
+      }
     } else {
-      res.status(401).send({ status: "Unauthorized" });
+      res.status(400).send({ status: "IncompleteRequest" });
     }
   } catch (error) {
     res.status(500).send({ status: error.message });

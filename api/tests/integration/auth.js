@@ -26,7 +26,10 @@ describe("Test for auth router", () => {
         .send(userDetails)
         .end((err, res) => {
           if (err) {
-            assert.isOk(false, `Error: ${err.message}`);
+            assert.isOk(
+              false,
+              `Error: ${err.message} | Status: ${res.body.status}`
+            );
           }
           assert.strictEqual(res.status, 200, "didn't return status 200");
           assert.strictEqual(
@@ -69,7 +72,10 @@ describe("Test for auth router", () => {
         })
         .end((err, res) => {
           if (err) {
-            assert.isOk(false, `Error: ${err.message}`);
+            assert.isOk(
+              false,
+              `Error: ${err.message} | Status: ${res.body.status}`
+            );
           }
           userToken = res.body.token;
           assert.strictEqual(res.status, 200, "didn't return status 200");
