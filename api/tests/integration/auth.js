@@ -1,18 +1,19 @@
 require("dotenv").config();
+const http = require("http");
 const chai = require("chai");
 const assert = chai.assert;
-const Users = require("../../models/users");
-const server = require("../../../index");
+const app = require("../../../index");
 chai.use(require("chai-http"));
 
 describe("Test for auth router", () => {
+  const server = http.createServer(app);
   const userDetails = {
     username: "test",
     password: "password",
     email: "integration@test.com"
   };
   after(async () => {
-    await Users.remove(userDetails.username);
+    await server.close();
   });
   describe("Test for /api/v1/signup", () => {
     it("should create a user", async () => {
@@ -67,6 +68,21 @@ describe("Test for auth router", () => {
           assert.exists(res.body.token, "didn't return token");
         });
     });
-    it("should return 401", async () => {});
+    it("should return 401", async () => {
+      chai
+        .request(server)
+        .post("/api/v1/login")
+        .send({
+          username: userDetails.username,
+          password: "wrong password"
+        })
+        .end((err, res) => {
+          if (err) {
+            assert.isOk(false, "threw an error");
+          }
+          assert.strictEqual(res.status, 401, "didn't return status 401");
+          assert.exists(res.body.status, "didn't return status");
+        });
+    });
   });
 });
