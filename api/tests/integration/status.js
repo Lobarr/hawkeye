@@ -18,8 +18,7 @@ describe("Test for status router", () => {
       assert.strictEqual(res.status, 200, "didn't return status 200");
       assert.strictEqual(res.body.status, "running", "didn't return running");
     } catch (error) {
-      assert.isOk(false, "threw an error");
-      console.log(error.message);
+      assert.isOk(false, `Error: ${error.message}`);
     }
   });
 });
