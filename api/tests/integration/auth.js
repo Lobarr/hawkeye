@@ -67,5 +67,6 @@ describe("Test for auth router", () => {
           assert.exists(res.body.token, "didn't return token");
         });
     });
+    it("should return 401", async () => {});
   });
 });
