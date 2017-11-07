@@ -1,5 +1,6 @@
 require("dotenv").config();
 const chai = require("chai");
+const _ = require("underscore");
 const assert = chai.assert;
 const server = require("../../../index");
 chai.use(require("chai-http"));
@@ -17,6 +18,7 @@ describe("Test for stream router", () => {
     resolution: "720p"
   };
   let userToken;
+  let userStreams;
   before(done => {
     // create user
     chai
@@ -29,10 +31,7 @@ describe("Test for stream router", () => {
     chai
       .request(server)
       .post("/api/v1/login")
-      .send({
-        username: userDetails.username,
-        password: userDetails.password
-      })
+      .send(_.omit(userDetails, "email"))
       .end((err, res) => {
         userToken = res.body.token;
         done();
@@ -45,7 +44,7 @@ describe("Test for stream router", () => {
       .set("x-hawkeye-token", userToken)
       .end();
   });
-  describe("Test for /api/v1/stream GET", () => {
+  describe("Test for /api/v1/stream POST", () => {
     it("should should create stream", done => {
       chai
         .request(server)
@@ -109,6 +108,86 @@ describe("Test for stream router", () => {
           } else {
             assert.isOk(false, "didn't throw error");
           }
+          done();
+        });
+    });
+  });
+  describe("Test for /api/v1/streams GET", () => {
+    it("should get user's streams", done => {
+      chai
+        .request(server)
+        .get("/api/v1/streams")
+        .set("x-hawkeye-token", userToken)
+        .end((err, res) => {
+          if (err) {
+            assert.isOk(
+              false,
+              `Error: ${err.message} | Status: ${res.body.status}`
+            );
+          }
+          assert.isArray(res.body);
+          assert.isNotEmpty(res.body, "returned empty array");
+          userStreams = res.body;
+          done();
+        });
+    });
+  });
+  describe("Test for /api/v1/stream/:id GET", () => {
+    it("should get stream", done => {
+      chai
+        .request(server)
+        .get(`/api/v1/stream/${userStreams[0]._id}`)
+        .set("x-hawkeye-token", userToken)
+        .end((err, res) => {
+          if (err) {
+            assert.isOk(
+              false,
+              `Error: ${err.message} | Status: ${res.body.status}`
+            );
+          }
+          assert.strictEqual(res.body, userStreams[0], "streams didn't match");
+          done();
+        });
+    });
+  });
+  describe("Test for /api/v1/stream PATCH", () => {
+    it("should update stream", done => {
+      chai
+        .request(server)
+        .patch("/api/v1/stream")
+        .send(
+          Object.assign({}, _.omit(userStreams[0], "_id"), {
+            id: userStreams[0]._id,
+            location: "testLocationUpdated"
+          })
+        )
+        .set("x-hawkeye-token", userToken)
+        .end((err, res) => {
+          if (err) {
+            assert.isOk(
+              false,
+              `Error: ${err.message} | Status: ${res.body.status}`
+            );
+          }
+          assert.isOk(true);
+          done();
+        });
+    });
+  });
+  describe("Test for /api/v1/stream/:id DELETE", () => {
+    it("should delete stream", done => {
+      chai
+        .request(server)
+        .del(`/api/v1/stream/${userStreams[0]._id}`)
+        .set("x-hawkeye-token", userToken)
+        .end((err, res) => {
+          if (err) {
+            assert.isOk(
+              false,
+              `Error: ${err.message} | Status: ${res.body.status}`
+            );
+          }
+          assert.exists(res.body.status, "didn't return status in body");
           done();
         });
     });

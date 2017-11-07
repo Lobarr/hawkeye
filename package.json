@@ -8,9 +8,6 @@
     "type": "git",
     "url": ""
   },
-  "engines": {
-    "node": "8.5.0"
-  },
   "dependencies": {
     "agenda": "^1.0.3",
     "axios": "^0.16.2",
@@ -49,6 +46,6 @@
     "live-server": "^1.2.0",
     "mocha": "^3.5.3",
     "nodemon": "^1.12.1",
-    "npm-run-all": "^4.1.1"
+    "npm-run-all": "^4.1.2"
   }
 }
