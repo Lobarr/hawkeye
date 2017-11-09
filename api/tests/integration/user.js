@@ -1,4 +1,5 @@
 require("dotenv").config();
+const _ = require("underscore");
 const chai = require("chai");
 const assert = chai.assert;
 const server = require("../../../index");
@@ -6,27 +7,25 @@ chai.use(require("chai-http"));
 
 describe("Test for user router", () => {
   const userDetails = {
-    username: "test",
+    username: "user",
     password: "password",
-    email: "integration@test.com"
+    email: "user@test.com"
   };
   let userToken;
-  before(done => {
+  before(() => {
     // create user
     chai
       .request(server)
       .post("/api/v1/signup")
       .send(userDetails)
       .end();
-
+  });
+  before(done => {
     // get token
     chai
       .request(server)
       .post("/api/v1/login")
-      .send({
-        username: userDetails.username,
-        password: userDetails.password
-      })
+      .send(_.omit(userDetails, "email"))
       .end((err, res) => {
         userToken = res.body.token;
         done();

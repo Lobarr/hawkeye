@@ -6,9 +6,9 @@ chai.use(require("chai-http"));
 
 describe("Test for auth router", () => {
   const userDetails = {
-    username: "test",
+    username: "auth",
     password: "password",
-    email: "integration@test.com"
+    email: "auth@test.com"
   };
   let userToken;
   after(() => {

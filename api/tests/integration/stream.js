@@ -1,15 +1,15 @@
 require("dotenv").config();
-const chai = require("chai");
 const _ = require("underscore");
+const chai = require("chai");
 const assert = chai.assert;
 const server = require("../../../index");
 chai.use(require("chai-http"));
 
 describe("Test for stream router", () => {
   const userDetails = {
-    username: "test",
+    username: "stream",
     password: "password",
-    email: "integration@test.com"
+    email: "stream@test.com"
   };
   const streamTestCase = {
     name: "testStream",
@@ -17,17 +17,16 @@ describe("Test for stream router", () => {
     location: "testLocation",
     resolution: "720p"
   };
-  let userToken;
-  let userStreams;
-  before(done => {
+  let userToken, userStreams;
+  before(() => {
     // create user
     chai
       .request(server)
       .post("/api/v1/signup")
       .send(userDetails)
       .end();
-
-    // get token
+  });
+  before(done => {
     chai
       .request(server)
       .post("/api/v1/login")
@@ -145,7 +144,7 @@ describe("Test for stream router", () => {
               `Error: ${err.message} | Status: ${res.body.status}`
             );
           }
-          assert.strictEqual(res.body, userStreams[0], "streams didn't match");
+          assert.deepEqual(res.body, userStreams[0], "streams didn't match");
           done();
         });
     });
