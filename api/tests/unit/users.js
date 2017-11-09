@@ -23,8 +23,7 @@ describe("Test for User.js", () => {
         await User.create(testCase);
         assert.isOk(true);
       } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.isOk(false, "threw an error");
+        assert.isOk(false, `Error: ${error.message}`);
       }
     });
     it("should throw a duplicate username/email error", async () => {
@@ -55,8 +54,7 @@ describe("Test for User.js", () => {
           );
         }, 500);
       } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.isOk(false, "threw an error");
+        assert.isOk(false, `Error: ${error.message}`);
       }
     });
   });
@@ -71,8 +69,7 @@ describe("Test for User.js", () => {
           "updated username doesn't match"
         );
       } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.isOk(false, "threw an error");
+        assert.isOk(false, `Error: ${error.message}`);
       }
     });
   });
@@ -83,8 +80,7 @@ describe("Test for User.js", () => {
         assert.isObject(user, "didn't return an object");
         assert.notExists(user.password, "return password as part of user");
       } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.isOk(false, "threw an error");
+        assert.isOk(false, `Error: ${error.message}`);
       }
     });
   });
@@ -107,8 +103,7 @@ describe("Test for User.js", () => {
         assert.isObject(user, "didn't return an object");
         assert.notExists(user.password, "return password as part of user");
       } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.isOk(false, "threw an error");
+        assert.isOk(false, `Error: ${error.message}`);
       }
     });
   });
@@ -132,8 +127,7 @@ describe("Test for User.js", () => {
         assert.isObject(user, "didn't return an object");
         assert.notExists(user.password, "return password as part of user");
       } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.isOk(false, "threw an error");
+        assert.isOk(false, `Error: ${error.message}`);
       }
     });
     it("should throw an InvalidID error", async () => {
@@ -169,8 +163,7 @@ describe("Test for User.js", () => {
         const token = await User.validate("testUpdated", "test");
         assert.isString(token, "didn't return a string");
       } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.isOk(false, "threw an error");
+        assert.isOk(false, `Error: ${error.message}`);
       }
     });
     it("should throw Unauthorized", async () => {
@@ -205,8 +198,7 @@ describe("Test for User.js", () => {
         let match = await User.validateToken(token);
         assert.isTrue(match, "didn't return true");
       } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.isOk(false, "threw an error");
+        assert.isOk(false, `Error: ${error.message}`);
       }
     });
     it("should return false", async () => {
@@ -215,8 +207,7 @@ describe("Test for User.js", () => {
         let match = await User.validateToken(token);
         assert.isFalse(match, "didn't return false");
       } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.isOk(false, "threw an error");
+        assert.isOk(false, `Error: ${error.message}`);
       }
     });
   });
@@ -226,8 +217,7 @@ describe("Test for User.js", () => {
         await User.remove("testUpdated");
         assert.isOk(true);
       } catch (error) {
-        console.log(`Error: ${error.message}`);
-        assert.isOk(false, "threw an error");
+        assert.isOk(false, `Error: ${error.message}`);
       }
     });
   });
