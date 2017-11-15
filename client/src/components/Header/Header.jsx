@@ -1,13 +1,25 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Layout, Menu, Icon } from "antd";
-import { CreateStream } from "../index";
+import { CreateStream, UserPopover } from "../index";
 import { onView } from "../../actions/stream";
+import { openPopover, closePopover } from "../../actions/user";
 import "./Header.css";
 const { Header } = Layout;
 const { Item } = Menu;
 
 class DashboardHeader extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handlePopover = this.handlePopover.bind(this);
+  }
+  handlePopover() {
+    if (this.props.user.popoverVisible) {
+      this.props.closePopover();
+    } else {
+      this.props.openPopover();
+    }
+  }
   render() {
     return (
       <Header className="header" style={{ backgroundColor: "#E8EEF2" }}>
@@ -19,7 +31,13 @@ class DashboardHeader extends React.Component {
           />
         </div>
         <div className="header-icon-container">
-          <Icon type="user" className="header-icon" />
+          <Icon
+            type="user"
+            className="header-icon"
+            onClick={this.handlePopover}
+          >
+            <UserPopover />
+          </Icon>
         </div>
         <CreateStream />
       </Header>
@@ -29,13 +47,16 @@ class DashboardHeader extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    general: state.general
+    general: state.general,
+    user: state.user
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onView: () => dispatch(onView())
+    onView: () => dispatch(onView()),
+    openPopover: () => dispatch(openPopover()),
+    closePopover: () => dispatch(closePopover())
   };
 };
 

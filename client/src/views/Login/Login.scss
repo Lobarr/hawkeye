@@ -1,7 +1,13 @@
+@import "../../styles/color-vars.scss";
+
 .login-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100% !important;
+  height: 100vh !important;
+  #login-title {
+    color: $header-color;
+    text-transform: uppercase;
+  }
 }

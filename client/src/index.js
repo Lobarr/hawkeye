@@ -20,7 +20,11 @@ class Index extends React.Component {
               exact
               path="/"
               render={() =>
-                store.getState().general.access ? <Dashboard /> : <Login />}
+                store.getState().general.access ? (
+                  <Dashboard />
+                ) : (
+                  <Redirect to="/login" />
+                )}
             />
             <Route
               exact

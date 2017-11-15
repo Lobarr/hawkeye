@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { CheckAccess } from "../../components";
 import { Link, Redirect } from "react-router-dom";
 import { signup } from "../../actions/auth";
 import { Form, Input, Button, Icon, Row } from "antd";
@@ -36,10 +35,9 @@ class Signup extends React.Component {
       return <Redirect to="/" />;
     }
     return (
-      <div className="login-container">
-        {/* <CheckAccess /> */}
+      <div className="signup-container">
         <Row>
-          <h1 id="login-title">Signup</h1>
+          <h1 id="signup-title">Signup</h1>
         </Row>
         <Row>
           <Form onSubmit={this.handleSubmit}>

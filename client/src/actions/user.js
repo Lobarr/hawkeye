@@ -7,13 +7,13 @@ export const getUser = () => {
       const res = await utils.call({
         endpoint: "/api/v1/user/me"
       });
-      dispatch({ type: "USER", payload: { user: res.data } });
-      if (getState().user.user === {}) {
+      if (!getState().user.user === {}) {
         notify({
           type: "success",
           message: `Welcome back, ${res.data.username}!`
         });
       }
+      dispatch({ type: "USER", payload: { user: res.data } });
     } catch (err) {
       if (!err.response) {
         notify({
@@ -38,7 +38,7 @@ export const remove = () => {
         method: "delete"
       });
       dispatch({ type: "LOGOUT" });
-    } catch (error) {
+    } catch (err) {
       if (!err.response) {
         notify({
           type: "error",
@@ -51,6 +51,18 @@ export const remove = () => {
         });
       }
     }
+  };
+};
+
+export const openPopover = () => {
+  return dispatch => {
+    dispatch({ type: "OPENPOPOVER" });
+  };
+};
+
+export const closePopover = () => {
+  return dispatch => {
+    dispatch({ type: "CLOSEPOPOVER" });
   };
 };
 

@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { CheckAccess } from "../../components";
 import { Form, Input, Button, Icon, Row } from "antd";
 import { login } from "../../actions/auth";
 import { Link, Redirect } from "react-router-dom";
@@ -36,7 +35,6 @@ class Login extends React.Component {
     }
     return (
       <div className="login-container">
-        {/* <CheckAccess /> */}
         <Row>
           <h1 id="login-title">Login</h1>
         </Row>

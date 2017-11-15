@@ -3,4 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100% !important; }
+  height: 100vh !important; }
+  .login-container #login-title {
+    color: #28231c;
+    text-transform: uppercase; }

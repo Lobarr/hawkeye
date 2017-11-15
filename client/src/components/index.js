@@ -1,6 +1,6 @@
 import Sidebar from "./Sidebar/Sidebar";
 import Header from "./Header/Header";
 import CreateStream from "./CreateStream/CreateStream";
-import CheckAccess from "./CheckAccess/CheckAccess";
+import UserPopover from "./UserPopover/UserPopover";
 
-export { Sidebar, Header, CreateStream, CheckAccess };
+export { Sidebar, Header, CreateStream, UserPopover };

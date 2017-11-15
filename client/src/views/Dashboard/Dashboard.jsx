@@ -4,6 +4,7 @@ import { Layout } from "antd";
 import { Sidebar, Header } from "../../components";
 import { getUser } from "../../actions/user";
 import "./Dashboard.css";
+import { Redirect } from "react-router-dom";
 const { Content, Footer } = Layout;
 
 class Dashboard extends React.Component {
@@ -14,6 +15,9 @@ class Dashboard extends React.Component {
     this.props.getUser();
   }
   render() {
+    if (!this.props.general.access) {
+      return <Redirect to="/login" />;
+    }
     return (
       <div className="dashboard">
         <Layout style={{ minHeight: "100vh" }}>
