@@ -119,7 +119,7 @@ user.patch("/api/v1/user/me", async (req, res) => {
       const user = await Users.updateUsername(req.user.username, username);
       res.send(user);
     } else {
-      res.status(400).send({ status: "IncompleteRequest" });
+      res.status(400).send({ status: "Incomplete Request" });
     }
   } catch (error) {
     res.status(500).send({ status: error.message });

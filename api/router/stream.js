@@ -63,7 +63,7 @@ stream.post("/api/v1/stream", async (req, res) => {
         });
       }
     } else {
-      res.status(400).send({ status: "IncompleteRequest" });
+      res.status(400).send({ status: "Incomplete Request" });
     }
   } catch (error) {
     res.status(400).send({ status: error.message });
@@ -117,7 +117,7 @@ stream.patch("/api/v1/stream", async (req, res) => {
       }
       res.send({ status: "success" });
     } else {
-      res.status(400).send({ status: "IncompleteRequest" });
+      res.status(400).send({ status: "Incomplete Request" });
     }
   } catch (error) {
     res.status(500).send({ status: error.message });
@@ -166,7 +166,7 @@ stream.get("/api/v1/stream/:id", async (req, res) => {
         res.status(401).send({ status: "Unauthorized" });
       }
     } else {
-      res.status(400).send({ status: "IncompleteRequest" });
+      res.status(400).send({ status: "Incomplete Request" });
     }
   } catch (error) {
     res.status(500).send({ status: error.message });
@@ -208,7 +208,7 @@ stream.delete("/api/v1/stream/:id", async (req, res) => {
         res.status(401).send({ status: "Unauthorized" });
       }
     } else {
-      res.status(400).send({ status: "IncompleteRequest" });
+      res.status(400).send({ status: "Incomplete Request" });
     }
   } catch (error) {
     res.status(500).send({ status: error.message });

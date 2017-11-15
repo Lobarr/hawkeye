@@ -1,3 +1,6 @@
-import App from "./App/App.jsx";
+import Sidebar from "./Sidebar/Sidebar";
+import Header from "./Header/Header";
+import CreateStream from "./CreateStream/CreateStream";
+import CheckAccess from "./CheckAccess/CheckAccess";
 
-export { App };
+export { Sidebar, Header, CreateStream, CheckAccess };

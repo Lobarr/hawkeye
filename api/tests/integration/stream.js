@@ -61,7 +61,7 @@ describe("Test for stream router", () => {
           done();
         });
     });
-    it("should return IncompleteRequest", done => {
+    it("should return Incomplete Request", done => {
       chai
         .request(server)
         .post("/api/v1/stream")
@@ -76,7 +76,7 @@ describe("Test for stream router", () => {
             assert.exists(res.body.status, "didn't return status in body");
             assert.strictEqual(
               res.body.status,
-              "IncompleteRequest",
+              "Incomplete Request",
               "didn't return right status"
             );
           } else {

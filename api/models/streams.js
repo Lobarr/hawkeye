@@ -58,10 +58,10 @@ const Stream = {
         });
         await newStream.save();
       } else {
-        throw new Error("InvalidURL");
+        throw new Error("Invalid URL");
       }
     } else {
-      throw new Error("IncompleteParameters");
+      throw new Error("Incomplete Parameters");
     }
   },
   //! Make everything show from the front end when updating
@@ -74,11 +74,11 @@ const Stream = {
    * @param {string} payload.url - rtsp/rtmp link
    * @param {string} payload.location - location of the stream
    * @param {string} payload.resolution - resolution of the stream
-   * @throws {string} - StreamNotSpecified
+   * @throws {string} - Stream Not Specified
    */
   async update(payload) {
     if (!payload.id) {
-      throw new Error("StreamNotSpecified");
+      throw new Error("Stream Not Specified");
     }
     if (mongoose.Types.ObjectId.isValid(payload.id)) {
       const keys = ["name", "url", "location", "resolution"];
@@ -90,7 +90,7 @@ const Stream = {
       });
       await StreamsModel.findByIdAndUpdate(payload.id, params);
     } else {
-      throw new Error("InvalidID");
+      throw new Error("Invalid ID");
     }
   },
   async getStream(ID) {
@@ -98,7 +98,7 @@ const Stream = {
       const stream = await StreamsModel.findById(ID);
       return stream;
     } else {
-      throw new Error("InvalidID");
+      throw new Error("Invalid ID");
     }
   },
 
@@ -117,7 +117,7 @@ const Stream = {
       );
       return streams;
     } else {
-      throw new Error("InvalidID");
+      throw new Error("Invalid ID");
     }
   },
   /**
@@ -130,7 +130,7 @@ const Stream = {
     if (mongoose.Types.ObjectId.isValid(ID)) {
       await StreamsModel.findByIdAndRemove(ID);
     } else {
-      throw new Error("InvalidID");
+      throw new Error("Invalid ID");
     }
   }
 };
