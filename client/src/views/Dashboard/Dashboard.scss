@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css?family=Encode+Sans+Expanded");
+
+.dashboard {
+  height: 100% !important;
+  width: 100% !important;
+  #dashboard-hawkeye {
+    font-family: "Encode Sans Expanded", sans-serif;
+    color: #37393a;
+  }
+  #dashboard-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

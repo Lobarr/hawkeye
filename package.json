@@ -1,7 +1,8 @@
 {
   "name": "hawkeye",
   "version": "0.1.0",
-  "description": "A web application that allows users view rtsp and rtmp streams for ip cameras",
+  "description":
+    "A web application that allows users view rtsp and rtmp streams for ip cameras",
   "main": "index.js",
   "private": true,
   "repository": {
@@ -27,7 +28,8 @@
     "underscore": "^1.8.3"
   },
   "scripts": {
-    "start": "npm-run-all -p apidoc client server",
+    "start-prod": "npm-rull-all -p client server",
+    "start-dev": "npm-run-all -p apidoc client server",
     "server": "nodemon index.js",
     "test-server": "mocha ./api/tests/*",
     "test-server-unit": "mocha ./api/tests/unit",

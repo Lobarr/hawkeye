@@ -3,10 +3,12 @@ import ReactDOM from "react-dom";
 import createBrowserHistory from "history/createBrowserHistory";
 import registerServiceWorker from "./helpers/registerServiceWorker";
 import store from "./store";
-import { App } from "./components/index";
-import { Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route, Redirect } from "react-router-dom";
 import { Provider } from "react-redux";
 import "./index.css";
+import "antd/dist/antd.css";
+
+import { Login, Signup, Dashboard } from "./views/index";
 
 class Index extends React.Component {
   render() {
@@ -14,7 +16,36 @@ class Index extends React.Component {
       <Provider store={store}>
         <Router basename="/" history={createBrowserHistory()}>
           <Switch>
-            <Route exact path="/" component={App} />
+            <Route
+              exact
+              path="/"
+              render={() =>
+                store.getState().general.access ? (
+                  <Dashboard />
+                ) : (
+                  <Redirect to="/login" />
+                )}
+            />
+            <Route
+              exact
+              path="/signup"
+              render={() =>
+                !store.getState().general.access ? (
+                  <Signup />
+                ) : (
+                  <Redirect to="/" />
+                )}
+            />
+            <Route
+              exact
+              path="/login"
+              render={() =>
+                !store.getState().general.access ? (
+                  <Login />
+                ) : (
+                  <Redirect to="/" />
+                )}
+            />
             <Route component={NotFound} />
           </Switch>
         </Router>
@@ -22,6 +53,18 @@ class Index extends React.Component {
     );
   }
 }
+
+// const Protected = ({ component, ...rest }) => (
+//   <Route
+//     {...rest}
+//     render={props =>
+//       sessionStorage.getItem("hawkeye") ? (
+//         <Component {...props} />
+//       ) : (
+//         <Redirect to="/login" />
+//       )}
+//   />
+// );
 
 const NotFound = () => <h1>Invalid Route</h1>;
 

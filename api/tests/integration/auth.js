@@ -40,7 +40,7 @@ describe("Test for auth router", () => {
           done();
         });
     });
-    it("should return IncompleteRequest", done => {
+    it("should return Incomplete Request", done => {
       chai
         .request(server)
         .post("/api/v1/signup")
@@ -51,7 +51,7 @@ describe("Test for auth router", () => {
             assert.exists(res.body.status, "didn't return a status");
             assert.strictEqual(
               res.body.status,
-              "IncompleteRequest",
+              "Incomplete Request",
               "didn't return right status"
             );
           } else {

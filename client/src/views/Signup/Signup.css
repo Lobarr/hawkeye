@@ -1,9 +1,9 @@
-.login-container {
+.signup-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh !important; }
-  .login-container #login-title {
+  .signup-container #signup-title {
     color: #28231c;
     text-transform: uppercase; }

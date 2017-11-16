@@ -84,7 +84,7 @@ const User = {
    * 
    * @param {string} username
    * @returns {object} - user info
-   * @throws {string} - UserNotFound
+   * @throws {string} - User Not Found
    */
   async getByUsername(username) {
     const user = await UserModel.findOne(
@@ -94,7 +94,7 @@ const User = {
     if (user) {
       return user;
     } else {
-      throw new Error("UserNotFound");
+      throw new Error("User Not Found");
     }
   },
 
@@ -103,7 +103,7 @@ const User = {
    * 
    * @param {string} ID ObjectId of user to find
    * @returns {object} - user info
-   * @throws {string} - UserNotFound
+   * @throws {string} - User Not Found
    */
 
   async getByID(ID) {
@@ -116,10 +116,10 @@ const User = {
       if (user) {
         return user;
       } else {
-        throw new Error("UserNotFound");
+        throw new Error("User Not Found");
       }
     } else {
-      throw new Error("InvalidID");
+      throw new Error("Invalid ID");
     }
   },
   /**
@@ -137,7 +137,7 @@ const User = {
     if (user) {
       return user;
     } else {
-      throw new Error("UserNotFound");
+      throw new Error("User Not Found");
     }
   },
 
@@ -162,7 +162,7 @@ const User = {
         throw new Error("Unauthorized");
       }
     } else {
-      throw new Error("InvalidUser");
+      throw new Error("Invalid User");
     }
   },
   /**

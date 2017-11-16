@@ -1,12 +1,12 @@
 @import "../../styles/color-vars.scss";
 
-.login-container {
+.signup-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh !important;
-  #login-title {
+  #signup-title {
     color: $header-color;
     text-transform: uppercase;
   }

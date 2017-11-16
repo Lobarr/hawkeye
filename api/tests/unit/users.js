@@ -84,14 +84,14 @@ describe("Test for User.js", () => {
       }
     });
   });
-  it("should return UserNotFound", async () => {
+  it("should return User Not Found", async () => {
     try {
       const user = await User.getByUsername("notExist");
       assert.isOk(false, "didn't throw error");
     } catch (error) {
       assert.strictEqual(
         error.message,
-        "UserNotFound",
+        "User Not Found",
         "didn't return right error message"
       );
     }
@@ -107,14 +107,14 @@ describe("Test for User.js", () => {
       }
     });
   });
-  it("should return UserNotFound", async () => {
+  it("should return User Not Found", async () => {
     try {
       const user = await User.getByEmail("notExist");
       assert.isOk(false, "didn't throw error");
     } catch (error) {
       assert.strictEqual(
         error.message,
-        "UserNotFound",
+        "User Not Found",
         "didn't return right error message"
       );
     }
@@ -130,19 +130,19 @@ describe("Test for User.js", () => {
         assert.isOk(false, `Error: ${error.message}`);
       }
     });
-    it("should throw an InvalidID error", async () => {
+    it("should throw an Invalid ID error", async () => {
       try {
         const user = await User.getByID("notExist");
         assert.isOk(false, "didn't throw an error");
       } catch (error) {
         assert.strictEqual(
           error.message,
-          "InvalidID",
+          "Invalid ID",
           "didn't return right error message"
         );
       }
     });
-    it("should throw a UserNotFound error", async () => {
+    it("should throw a User Not Found error", async () => {
       try {
         const user = await User.getByID(
           ObjectID.createFromTime(moment().unix())
@@ -151,7 +151,7 @@ describe("Test for User.js", () => {
       } catch (error) {
         assert.strictEqual(
           error.message,
-          "UserNotFound",
+          "User Not Found",
           "didn't return right error message"
         );
       }
@@ -178,14 +178,14 @@ describe("Test for User.js", () => {
         );
       }
     });
-    it("should throw InvalidUser", async () => {
+    it("should throw Invalid User", async () => {
       try {
         const token = await User.validate("test", "notpassword");
         assert.isOk(false, "didn't throw error");
       } catch (error) {
         assert.strictEqual(
           error.message,
-          "InvalidUser",
+          "Invalid User",
           "didn't return right error message"
         );
       }

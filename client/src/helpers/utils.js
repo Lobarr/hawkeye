@@ -2,14 +2,21 @@ import axios from "axios";
 
 export const utils = {
   api() {
-    return "";
+    return process.env.REACT_APP_API;
   },
   api_dev() {
     return "http://localhost:3001";
   },
-  resetToken(){
-		sessionStorage.removeItem("hawkeye")
-	},'
+  resetToken() {
+    sessionStorage.removeItem("hawkeye");
+  },
+  /**
+   * 
+   * @param {object} payload 
+   * @param {string} payload.endpoint 
+   * @param {string="get", "post", "put", "delete"} payload.method
+   * @param {object} payload.data data sent to the server
+   */
   async call(payload) {
     return axios({
       baseURL:
@@ -17,7 +24,7 @@ export const utils = {
       url: payload.endpoint,
       method: payload.method ? payload.method : "get",
       headers: {
-        "x-hawkeye-token": sessionStorage.hawkeye,
+        "x-hawkeye-token": sessionStorage.hawkeye
       },
       data: payload.data ? payload.data : {}
     });

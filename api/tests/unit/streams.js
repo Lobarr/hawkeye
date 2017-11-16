@@ -65,15 +65,15 @@ describe("Test for Stream.js", () => {
         assert.isOk(false, "threw an error");
       }
     });
-    it("should throw InvalidID", async () => {
+    it("should throw Invalid ID", async () => {
       try {
-        const streams = await Streams.getUserStreams("invalidid");
+        const streams = await Streams.getUserStreams("Invalid ID");
         assert.isOk(false, "didn't throw an error");
       } catch (error) {
         console.log(`Error: ${error.message}`);
         assert.strictEqual(
           error.message,
-          "InvalidID",
+          "Invalid ID",
           "didn't return the right error message"
         );
       }
@@ -113,7 +113,7 @@ describe("Test for Stream.js", () => {
         assert.isOk(false, "threw an error");
       }
     });
-    it("should throw StreamNotSpecified", async () => {
+    it("should throw Stream Not Specified", async () => {
       try {
         await Streams.update({});
         assert.isOk(false, "didn't throw and error");
@@ -121,7 +121,7 @@ describe("Test for Stream.js", () => {
         console.log(`Error: ${error.message}`);
         assert.strictEqual(
           error.message,
-          "StreamNotSpecified",
+          "Stream Not Specified",
           "didn't return the right error message"
         );
       }
@@ -141,7 +141,7 @@ describe("Test for Stream.js", () => {
         assert.isOk(false, "threw an error");
       }
     });
-    it("should throw InvalidID", async () => {
+    it("should throw Invalid ID", async () => {
       try {
         await Streams.remove("notID");
         assert.isOk(false, "didn't throw an error");
@@ -149,7 +149,7 @@ describe("Test for Stream.js", () => {
         console.log(`Error: ${error.message}`);
         assert.strictEqual(
           error.message,
-          "InvalidID",
+          "Invalid ID",
           "didn't return the right error message"
         );
       }
