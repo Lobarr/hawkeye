@@ -11,6 +11,9 @@ const FormItem = Form.Item;
 class Signup extends React.Component {
   constructor(props) {
     super(props);
+    // this.state = {
+    //   redirect: false
+    // };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
   }
@@ -19,8 +22,10 @@ class Signup extends React.Component {
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
         this.props.signup(omit(values, "confirm"));
+        // this.setState({ redirect: true });
       }
     });
+    this.props.form.resetFields();
   }
   checkPassword(rule, value, callback) {
     const form = this.props.form;
@@ -109,6 +114,7 @@ class Signup extends React.Component {
             </FormItem>
           </Form>
         </Row>
+        {/* {this.props.redirect && <Redirect to="/login" />} */}
       </div>
     );
   }

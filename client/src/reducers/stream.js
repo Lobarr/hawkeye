@@ -1,11 +1,16 @@
 const initState = {
   modalVisible: false,
   streams: [],
-  stream: {}
+  stream: {},
+  selectedStream: {}
 };
 
 const stream = (state = initState, action) => {
   switch (action.type) {
+    case "SELECTSTREAM":
+      return Object.assign({}, state, {
+        selectedStream: action.payload.stream
+      });
     case "CANCELMODAL":
       return Object.assign({}, state, {
         modalVisible: false

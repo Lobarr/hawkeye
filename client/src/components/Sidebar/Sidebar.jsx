@@ -1,10 +1,28 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Layout, Menu, Icon } from "antd";
+import { select } from "../../actions/stream";
 const { Sider } = Layout;
 const { Item, SubMenu } = Menu;
 
 class Sidebar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.displayStreams = this.displayStreams.bind(this);
+  }
+  displayStreams() {
+    if (this.props.stream.streams.length !== 0) {
+      return this.props.stream.streams.map((stream, index) => (
+        <Item key={index + 4}>
+          <span onClick={() => this.props.select(stream)}>
+            {stream.name.toUpperCase()} - {stream.location.toUpperCase()}
+          </span>
+        </Item>
+      ));
+    } else {
+      return <Item key="0">No streams</Item>;
+    }
+  }
   render() {
     return (
       <Sider style={{ backgroundColor: "white" }}>
@@ -29,10 +47,7 @@ class Sidebar extends React.Component {
               </span>
             }
           >
-            <Item key="4">Option 9</Item>
-            <Item key="5">Option 10</Item>
-            <Item key="6">Option 11</Item>
-            <Item key="7">Option 12</Item>
+            {this.displayStreams()}
           </SubMenu>
         </Menu>
       </Sider>
@@ -42,12 +57,15 @@ class Sidebar extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    general: state.general
+    general: state.general,
+    stream: state.stream
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    select: stream => dispatch(select(stream))
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

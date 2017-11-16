@@ -1,12 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Layout, Menu, Icon } from "antd";
+import { Layout, Icon } from "antd";
 import { CreateStream, UserPopover } from "../index";
 import { onView } from "../../actions/stream";
 import { openPopover, closePopover } from "../../actions/user";
 import "./Header.css";
 const { Header } = Layout;
-const { Item } = Menu;
 
 class DashboardHeader extends React.Component {
   constructor(props) {

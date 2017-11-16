@@ -2,35 +2,55 @@ import React from "react";
 import { connect } from "react-redux";
 import { Popover, Menu, Icon } from "antd";
 import { logout } from "../../actions/auth";
+import { viewProfile, updateProfile, remove } from "../../actions/user";
+import { ViewProfile, UpdateProfile, ConfirmDelete } from "../index";
 
-const content = ({ logout }) => (
-  <Menu mode="inline">
-    <Menu.Item key="1">
-      <Icon type="user" />
-      <span>View Profile</span>
-    </Menu.Item>
-    <Menu.Item key="2">
-      <Icon type="setting" />
-      <span>Update Profile</span>
-    </Menu.Item>
-    <Menu.Item key="3">
-      <Icon type="poweroff" />
-      <span>Signout</span>
-    </Menu.Item>
-  </Menu>
-);
 class UserPopover extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
-      <Popover
-        // title="Title"
-        trigger="click"
-        content={<div>{<content />}</div>}
-        visible={this.props.user.popoverVisible}
-      />
+      <div>
+        <Popover
+          // title="Title"
+          trigger="click"
+          content={
+            <Menu mode="inline">
+              <Menu.Item key="1">
+                <div onClick={this.props.viewProfile}>
+                  <Icon type="user" />
+                  <span>View Profile</span>
+                </div>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <div onClick={this.props.updateProfile}>
+                  <Icon type="setting" />
+                  <span>Update Profile</span>
+                </div>
+              </Menu.Item>
+              <Menu.Item key="3">
+                <div onClick={this.props.logout}>
+                  <Icon type="poweroff" />
+                  <span>Signout</span>
+                </div>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <div
+                  onClick={() =>
+                    ConfirmDelete(
+                      "Are you sure you want to be deleted?",
+                      this.props.remove
+                    )}
+                >
+                  <Icon type="delete" style={{ color: "red" }} />
+                  <span>Delete Profile</span>
+                </div>
+              </Menu.Item>
+            </Menu>
+          }
+          visible={this.props.user.popoverVisible}
+        />
+        <ViewProfile />
+        <UpdateProfile />
+      </div>
     );
   }
 }
@@ -44,7 +64,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout: dispatch => dispatch(logout())
+    logout: () => dispatch(logout()),
+    viewProfile: () => dispatch(viewProfile()),
+    updateProfile: () => dispatch(updateProfile()),
+    remove: () => dispatch(remove())
   };
 };
 

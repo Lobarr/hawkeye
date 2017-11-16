@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Layout } from "antd";
 import { Sidebar, Header } from "../../components";
 import { getUser } from "../../actions/user";
+import { getStreams, getStream } from "../../actions/stream";
 import "./Dashboard.css";
 import { Redirect } from "react-router-dom";
 const { Content, Footer } = Layout;
@@ -13,6 +14,7 @@ class Dashboard extends React.Component {
   }
   componentDidMount() {
     this.props.getUser();
+    this.props.getStreams();
   }
   render() {
     if (!this.props.general.access) {
@@ -40,7 +42,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUser: () => dispatch(getUser())
+    getUser: () => dispatch(getUser()),
+    getStreams: () => dispatch(getStreams())
   };
 };
 

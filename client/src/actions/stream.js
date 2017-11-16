@@ -10,6 +10,7 @@ export const create = payload => {
         data: payload
       });
       dispatch({ type: "CANCELMODAL" });
+      dispatch(getStreams());
       notify({
         type: "success",
         message: "Stream added!"
@@ -77,6 +78,12 @@ export const getStreams = () => {
         });
       }
     }
+  };
+};
+
+export const select = stream => {
+  return dispatch => {
+    dispatch({ type: "SELECTSTREAM", payload: { stream } });
   };
 };
 

@@ -1,5 +1,6 @@
 import { utils } from "../helpers/utils";
 import { notify } from "../helpers/notification";
+import { omit } from "underscore";
 
 export const getUser = () => {
   return async (dispatch, getState) => {
@@ -7,13 +8,39 @@ export const getUser = () => {
       const res = await utils.call({
         endpoint: "/api/v1/user/me"
       });
-      if (!getState().user.user === {}) {
+      dispatch({ type: "USER", payload: { user: res.data } });
+    } catch (err) {
+      if (!err.response) {
         notify({
-          type: "success",
-          message: `Welcome back, ${res.data.username}!`
+          type: "error",
+          message: "Unable to connect to server!"
+        });
+      } else {
+        notify({
+          type: "error",
+          message: err.response.data.status
         });
       }
-      dispatch({ type: "USER", payload: { user: res.data } });
+    }
+  };
+};
+
+export const update = username => {
+  return async dispatch => {
+    try {
+      const res = await utils.call({
+        endpoint: "/api/v1/user/me",
+        method: "patch",
+        data: {
+          username
+        }
+      });
+      notify({
+        type: "success",
+        message: "Successfully updated user!"
+      });
+      sessionStorage.setItem("hawkeye", res.data.token);
+      dispatch({ type: "USER", payload: { user: omit(res.data, "token") } });
     } catch (err) {
       if (!err.response) {
         notify({
@@ -37,6 +64,7 @@ export const remove = () => {
         endpoint: "/api/v1/user/me",
         method: "delete"
       });
+      utils.resetToken();
       dispatch({ type: "LOGOUT" });
     } catch (err) {
       if (!err.response) {
@@ -66,4 +94,26 @@ export const closePopover = () => {
   };
 };
 
-//TODO: handle 401 on all api calls
+export const viewProfile = () => {
+  return dispatch => {
+    dispatch({ type: "VIEWPROFILE" });
+  };
+};
+
+export const closeViewProfile = () => {
+  return dispatch => {
+    dispatch({ type: "CLOSEVIEWPROFILE" });
+  };
+};
+
+export const updateProfile = () => {
+  return dispatch => {
+    dispatch({ type: "UPDATEPROFILE" });
+  };
+};
+
+export const closeUpdateProfile = () => {
+  return dispatch => {
+    dispatch({ type: "CLOSEUPDATEPROFILE" });
+  };
+};
