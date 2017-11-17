@@ -6,6 +6,7 @@ This is an application that shows rtsp and rtmp streams in a web dashboard
 * Clone the repo to your local environment
 * Install Yarn package manager `npm install -g yarn`
 * Install dependencies `yarn install`
+* Install client dependencies by running `yarn install` in the client folder
 * Run application (Server, Client and apidocs) `yarn run start-dev`
   * To individually run client `yarn run client`
   * To individually run server `yarn run server`
