@@ -24,7 +24,7 @@ export default class MediaElement extends React.Component {
 
   render() {
     const mediaHtml = `<video id="${this.props
-      .id}" controls="true" width="100%" height="100%">
+      .id}" controls width="100%" height="100%">
 					<source src="${this.props.url}" type="video/rtmp" />
 				</video>`;
 
@@ -38,15 +38,12 @@ export default class MediaElement extends React.Component {
       return;
     }
 
-    const options = Object.assign(
-      {},
-      {
-        // Read the Notes below for more explanation about how to set up the path for shims
-        pluginPath: "./static/media/",
-        success: (media, node, instance) => this.success(media, node, instance),
-        error: (media, node) => this.error(media, node)
-      }
-    );
+    const options = {
+      // Read the Notes below for more explanation about how to set up the path for shims
+      pluginPath: "./static/media/",
+      success: (media, node, instance) => this.success(media, node, instance),
+      error: (media, node) => this.error(media, node)
+    };
 
     this.setState({ player: new MediaElementPlayer(this.props.id, options) });
   }
