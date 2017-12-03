@@ -5,6 +5,8 @@
   "dependencies": {
     "antd": "^2.13.10",
     "history": "^4.7.2",
+    "hls.js": "^0.8.7",
+    "mediaelement": "^4.2.7",
     "moment": "^2.19.1",
     "node-sass-chokidar": "^0.0.3",
     "react": "^16.0.0",

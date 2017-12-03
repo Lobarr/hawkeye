@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Layout } from "antd";
-import { Sidebar, Header } from "../../components";
+import { Sidebar, Header, Fullscreen } from "../../components";
 import { getUser } from "../../actions/user";
 import { getStreams, getStream } from "../../actions/stream";
 import "./Dashboard.css";
@@ -26,7 +26,9 @@ class Dashboard extends React.Component {
           <Sidebar />
           <Layout>
             <Header />
-            <Content>Content</Content>
+            <Content style={{ height: "100%" }}>
+              <Fullscreen />
+            </Content>
           </Layout>
         </Layout>
       </div>

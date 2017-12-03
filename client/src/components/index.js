@@ -5,6 +5,8 @@ import UserPopover from "./UserPopover/UserPopover";
 import ViewProfile from "./ViewProfile/ViewProfile";
 import UpdateProfile from "./UpdateProfile/UpdateProfile";
 import ConfirmDelete from "./ConfirmDelete/ConfirmDelete";
+import Fullscreen from "./Fullscreen/Fullscreen";
+import MediaElement from "./MediaElement/MediaElement";
 
 export {
   Sidebar,
@@ -13,5 +15,7 @@ export {
   UserPopover,
   ViewProfile,
   UpdateProfile,
-  ConfirmDelete
+  ConfirmDelete,
+  Fullscreen,
+  MediaElement
 };
