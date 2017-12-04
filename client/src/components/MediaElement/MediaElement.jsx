@@ -1,8 +1,6 @@
 import React from "react";
 import "hls.js";
 import "mediaelement";
-
-// Import stylesheet and shims
 import "mediaelement/build/mediaelementplayer.min.css";
 import "mediaelement/build/mediaelement-flash-video.swf";
 
@@ -23,8 +21,9 @@ export default class MediaElement extends React.Component {
   }
 
   render() {
-    const mediaHtml = `<video id="${this.props
-      .id}" controls width="100%" height="100%">
+    const mediaHtml = `<video id="${
+      this.props.id
+    }" controls="controls" preload="auto" width="100%" height="100%">
 					<source src="${this.props.url}" type="video/rtmp" />
 				</video>`;
 
@@ -39,8 +38,7 @@ export default class MediaElement extends React.Component {
     }
 
     const options = {
-      // Read the Notes below for more explanation about how to set up the path for shims
-      pluginPath: "./static/media/",
+      pluginPath: "./build/static/media/",
       success: (media, node, instance) => this.success(media, node, instance),
       error: (media, node) => this.error(media, node)
     };
