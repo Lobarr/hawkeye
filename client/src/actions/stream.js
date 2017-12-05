@@ -121,3 +121,15 @@ export const onCancel = () => {
     dispatch({ type: "CANCELMODAL" });
   };
 };
+
+export const fullscreenMode = () => {
+  return dispatch => {
+    dispatch({ type: "DISPLAYMODE", mode: "FULLSCREEN" });
+  };
+};
+
+export const twobytwoMode = () => {
+  return dispatch => {
+    dispatch({ type: "DISPLAYMODE", mode: "TWOBYTWO" });
+  };
+};

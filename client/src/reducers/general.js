@@ -1,4 +1,5 @@
 const initState = {
+  displayMode: "FULLSCREEN",
   isLoading: false,
   denied: false,
   access: sessionStorage.getItem("hawkeye") ? true : false,
@@ -22,6 +23,10 @@ const general = (state = initState, action) => {
     case "LOADED":
       return Object.assign({}, state, {
         isLoading: false
+      });
+    case "DISPLAYMODE":
+      return Object.assign({}, state, {
+        displayMode: action.mode
       });
     default:
       return state;

@@ -1,7 +1,6 @@
 #fullscreen {
   height: 100% !important;
-  width: 100% !important;
-  border: 1px solid black; }
+  width: 100% !important; }
 
 #fullscreen-select {
   height: 100% !important;

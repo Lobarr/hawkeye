@@ -7,6 +7,7 @@ import UpdateProfile from "./UpdateProfile/UpdateProfile";
 import ConfirmDelete from "./ConfirmDelete/ConfirmDelete";
 import Fullscreen from "./Fullscreen/Fullscreen";
 import MediaElement from "./MediaElement/MediaElement";
+import TwoByTwo from "./TwoByTwo/TwoByTwo";
 
 export {
   Sidebar,
@@ -17,5 +18,6 @@ export {
   UpdateProfile,
   ConfirmDelete,
   Fullscreen,
-  MediaElement
+  MediaElement,
+  TwoByTwo
 };
