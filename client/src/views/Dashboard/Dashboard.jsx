@@ -1,9 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Layout } from "antd";
-import { Sidebar, Header } from "../../components";
+import { Sidebar, Header, Fullscreen, TwoByTwo } from "../../components";
 import { getUser } from "../../actions/user";
-import { getStreams, getStream } from "../../actions/stream";
+import {
+  getStreams,
+  getStream,
+  fullscreenMode,
+  twobytwoMode
+} from "../../actions/stream";
 import "./Dashboard.css";
 import { Redirect } from "react-router-dom";
 const { Content, Footer } = Layout;
@@ -26,7 +31,13 @@ class Dashboard extends React.Component {
           <Sidebar />
           <Layout>
             <Header />
-            <Content>Content</Content>
+            <Content style={{ height: "100%" }}>
+              {this.props.general.displayMode === "FULLSCREEN" ? (
+                <Fullscreen />
+              ) : (
+                <TwoByTwo />
+              )}
+            </Content>
           </Layout>
         </Layout>
       </div>

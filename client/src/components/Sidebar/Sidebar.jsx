@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Layout, Menu, Icon } from "antd";
-import { select } from "../../actions/stream";
+import { select, twobytwoMode, fullscreenMode } from "../../actions/stream";
 const { Sider } = Layout;
 const { Item, SubMenu } = Menu;
 
@@ -31,12 +31,16 @@ class Sidebar extends React.Component {
             <h1 id="dashboard-hawkeye">HAWKEYE</h1>
           </Item>
           <Item key="2">
-            <Icon type="appstore" />
-            <span>2 x 2</span>
+            <div onClick={() => this.props.twobytwoMode()}>
+              <Icon type="appstore" />
+              <span>2 x 2</span>
+            </div>
           </Item>
           <Item key="3">
-            <Icon type="laptop" />
-            <span>Fullscreen</span>
+            <div onClick={() => this.props.fullscreenMode()}>
+              <Icon type="laptop" />
+              <span>Fullscreen</span>
+            </div>
           </Item>
           <SubMenu
             key="streams"
@@ -64,7 +68,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    select: stream => dispatch(select(stream))
+    select: stream => dispatch(select(stream)),
+    twobytwoMode: () => dispatch(twobytwoMode()),
+    fullscreenMode: () => dispatch(fullscreenMode())
   };
 };
 
