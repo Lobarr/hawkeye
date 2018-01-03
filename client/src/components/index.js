@@ -8,6 +8,7 @@ import ConfirmDelete from "./ConfirmDelete/ConfirmDelete";
 import Fullscreen from "./Fullscreen/Fullscreen";
 import MediaElement from "./MediaElement/MediaElement";
 import TwoByTwo from "./TwoByTwo/TwoByTwo";
+import VideoPLayer from "./VIdeoPlayer/VideoPLayer";
 
 export {
   Sidebar,
@@ -19,5 +20,6 @@ export {
   ConfirmDelete,
   Fullscreen,
   MediaElement,
-  TwoByTwo
+  TwoByTwo,
+  VideoPLayer
 };

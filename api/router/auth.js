@@ -22,7 +22,7 @@ const Users = require("../models/users");
  * @apiErrorExample {json} Example data on error:
  * {
  *  "status": "Incomplete Request"
- * }
+ * } 
  */
 auth.post("/api/v1/login", async (req, res) => {
   try {
