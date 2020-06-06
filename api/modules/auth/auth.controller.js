@@ -38,7 +38,10 @@ router.post("/login", async (req, res) => {
 
     const token = await userService.validate(username, password);
 
-    res.send({ token });
+    res.send({
+      status: http.STATUS_CODES[httpStatus.OK],
+      data: { token },
+    });
   } catch (error) {
     switch (error.message) {
       case "Unauthorized":
@@ -90,6 +93,8 @@ router.post("/signup", async (req, res) => {
     if (!(username && email && password)) {
       res.status(httpStatus.BAD_REQUEST).send({ status: "Incomplete Request" });
     }
+
+    console.log("moved on", req.body);
 
     await userService.create({ username, email, password });
 

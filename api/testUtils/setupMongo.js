@@ -1,12 +1,16 @@
 const mongoose = require("mongoose");
+const { MongoMemoryServer } = require("mongodb-memory-server");
+
+const mongod = new MongoMemoryServer();
 
 before(async () => {
-  console.log("in here");
-
-  const mongoServer = new MongoMemoryServer();
-  const mongoUrl = await mongoServer.getUri();
-
+  const mongoUrl = await mongod.getConnectionString();
   await mongoose.connect(mongoUrl, {
-    promiseLibrary: Promise,
+    promiseLibrary: require("bluebird"),
   });
+});
+
+after(async () => {
+  await mongoose.disconnect();
+  await mongod.stop();
 });

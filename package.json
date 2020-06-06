@@ -42,7 +42,7 @@
     "start": "node index.js",
     "test-server-integration": "mocha ./api/tests/integration",
     "test-server-unit": "mocha ./api/tests/unit",
-    "test-server": "mocha -r ./api/testUtils/setupMongo.js ./api/modules/*",
+    "test-server": "mocha --file ./api/testUtils/setupMongo.js --exit ./api/modules/*",
     "test": "yarn run test-server",
     "watch-apidoc": "nodemon -L --exec yarn run build-apidoc"
   },

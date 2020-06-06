@@ -144,7 +144,7 @@ module.exports = {
       throw new Error("Invalid User");
     }
 
-    const match = await Utils.validatePassword(password, user.password);
+    const match = await authService.validatePassword(password, user.password);
     if (!match) {
       throw new Error("Unauthorized");
     }
