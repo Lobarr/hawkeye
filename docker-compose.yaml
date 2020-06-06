@@ -30,6 +30,7 @@ services:
       - MONGO_URL=mongodb://database
       - NODE_ENV=development
       - PORT=3001
+      - JWT_SECRET=clever_secret
     ports:
       - "3001:3001"
     volumes:

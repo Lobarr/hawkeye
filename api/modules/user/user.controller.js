@@ -1,12 +1,15 @@
-const user = require("express").Router();
-const Users = require("../models/users");
-const Streams = require("../models/streams");
-const Middlewares = require("../helpers/middlewares");
+const { makeAgenda } = require("../../setup");
+const authMiddleware = require("../auth/auth.middleware");
+const http = require("http");
+const httpStatus = require("http-status-codes");
+const router = require("express").Router();
+const streamService = require("../stream/stream.service");
+const userService = require("./user.service");
 
-user.use(Middlewares.auth); // auth middleware
+router.use(authMiddleware); // auth middleware
 
 /**
- * @api {get} /api/v1/user/me Get user info
+ * @api {get} /user/me Get user info
  * @apiName GetUser
  * @apiGroup User
  * @apiVersion 0.0.1
@@ -30,19 +33,25 @@ user.use(Middlewares.auth); // auth middleware
  *  "status": "some error message"
  * }
  */
-user.get("/api/v1/user/me", async (req, res) => {
+router.get("/user/me", async (req, res) => {
   try {
-    const { _id, username, email } = await Users.getByUsername(
+    const { _id, username, email } = await userService.getByUsername(
       req.user.username
     );
-    res.send({ _id, username, email });
+
+    res.send({
+      status: http.STATUS_CODES[httpStatus.OK],
+      data: { id: _id, username, email },
+    });
   } catch (error) {
-    res.status(500).send({ status: error.message });
+    res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .send({ status: error.message });
   }
 });
 
 /**
- * @api {delete} /api/v1/user/me Delete a user
+ * @api {delete} /user/me Delete a user
  * @apiName RemoveUser
  * @apiGroup User
  * @apiVersion 0.0.1
@@ -62,18 +71,23 @@ user.get("/api/v1/user/me", async (req, res) => {
  *  "status": "some error message"
  * }
  */
-user.delete("/api/v1/user/me", async (req, res) => {
+router.delete("/user/me", async (req, res) => {
   try {
-    await Users.remove(req.user.username);
+    const { username } = req.user;
+
+    await userService.remove(username);
     agenda.now("delete user streams", { id: req.user._id });
-    res.send({ status: "Success" });
+
+    res.send({ status: http.STATUS_CODES[httpStatus.OK] });
   } catch (error) {
-    res.status(500).send({ status: error.message });
+    res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .send({ status: error.message });
   }
 });
 
 /**
- * @api {patch} /api/v1/user/me Update user info
+ * @api {patch} /user/me Update user info
  * @apiName UpdateUser
  * @apiGroup User
  * @apiVersion 0.0.1
@@ -95,7 +109,7 @@ user.delete("/api/v1/user/me", async (req, res) => {
  * {
  *  "_id": "eyJhbGciOiJIUzI1NiIs",
  *  "username": "test",
- *  "email": "test@test.com", 
+ *  "email": "test@test.com",
  *  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxvYmFyciIsImlhdCI6MTUwNzQzMDQ1Mn0.a09hk0-BTJTa_JwjzAdhIi8mtkMa03cCi9I-u1puJr0"
  * }
  * @apiError (Unauthorized 401 / InternalServerError 500) {string} status Error message
@@ -104,18 +118,25 @@ user.delete("/api/v1/user/me", async (req, res) => {
  *  "status": "some error message"
  * }
  */
-user.patch("/api/v1/user/me", async (req, res) => {
+router.patch("/user/me", async (req, res) => {
   try {
     const { username } = req.body;
-    if (username) {
-      const user = await Users.updateUsername(req.user.username, username);
-      res.send(user);
-    } else {
-      res.status(400).send({ status: "Incomplete Request" });
+
+    if (!username) {
+      res.status(httpStatus.BAD_REQUEST).send({ status: "Incomplete Request" });
     }
+
+    const user = await userService.updateUsername(req.user.username, username);
+
+    res.send({
+      status: http.STATUS_CODES[httpStatus.OK],
+      data: user,
+    });
   } catch (error) {
-    res.status(500).send({ status: error.message });
+    res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .send({ status: error.message });
   }
 });
 
-module.exports = user;
+module.exports = router;

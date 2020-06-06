@@ -1,11 +1,4 @@
 const mongoose = require("mongoose");
-const Agenda = require("agenda");
-const agenda = new Agenda({
-  db: {
-    address: process.env.DB
-  },
-  processEvery: "1 minute"
-});
 
 const streamSchema = mongoose.Schema({
   name: {

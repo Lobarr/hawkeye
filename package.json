@@ -11,6 +11,7 @@
   "dependencies": {
     "agenda": "^1.0.3",
     "axios": "^0.16.2",
+    "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
@@ -19,6 +20,7 @@
     "dotenv": "^4.0.0",
     "express": "^4.15.5",
     "helmet": "^3.8.1",
+    "http-status-codes": "^1.4.0",
     "jsonwebtoken": "^8.0.1",
     "moment": "^2.18.1",
     "mongodb": "^2.2.31",
@@ -26,6 +28,7 @@
     "morgan": "^1.8.2",
     "path": "^0.12.7",
     "signale": "^1.4.0",
+    "sinon": "^9.0.2",
     "underscore": "^1.8.3"
   },
   "scripts": {
@@ -39,7 +42,7 @@
     "start": "node index.js",
     "test-server-integration": "mocha ./api/tests/integration",
     "test-server-unit": "mocha ./api/tests/unit",
-    "test-server": "mocha ./api/tests/*",
+    "test-server": "mocha -r ./api/testUtils/setupMongo.js ./api/modules/*",
     "test": "yarn run test-server",
     "watch-apidoc": "nodemon -L --exec yarn run build-apidoc"
   },
@@ -49,6 +52,7 @@
     "chai-http": "^3.0.0",
     "live-server": "^1.2.0",
     "mocha": "^3.5.3",
+    "mongodb-memory-server": "^6.6.1",
     "nodemon": "^1.12.1",
     "npm-run-all": "^4.1.2"
   }

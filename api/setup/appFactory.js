@@ -1,9 +1,10 @@
-const bodyParser = require('body-parser');
-const compression = require('compression');
-const express = require('express');
-const morgan = require('morgan');
-const { PORT, NODE_ENV } = require('../config');
-
+const bodyParser = require("body-parser");
+const compression = require("compression");
+const express = require("express");
+const morgan = require("morgan");
+const helmet = require("helmet");
+const cors = require("cors");
+const { PORT, NODE_ENV } = require("../config");
 
 module.exports = (controllers = [], middlewares = []) => {
   const app = express();
@@ -22,15 +23,19 @@ module.exports = (controllers = [], middlewares = []) => {
   app.use(cors());
 
   // Enable logging for development environment
-  if (NODE_ENV === 'development') morgan('short');
+  if (NODE_ENV === "development") morgan("short");
 
-  // Attach provided controllers
+  rootRouter = express.Router();
+
   for (const controller of controllers) {
-    app.use(controller);
+    rootRouter.use(controller);
   }
 
+  // Attach provided controllers
+  app.use("/v1", rootRouter);
+
   // Attach provided middlewares
-  for (const middleware of middlewares){
+  for (const middleware of middlewares) {
     app.use(middleware);
   }
 
