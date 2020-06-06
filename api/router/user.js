@@ -72,8 +72,8 @@ user.get("/api/v1/user/me", async (req, res) => {
  */
 user.delete("/api/v1/user/me", async (req, res) => {
   try {
-    agenda.now("delete user streams", { id: req.user._id });
     await Users.remove(req.user.username);
+    agenda.now("delete user streams", { id: req.user._id });
     res.send({ status: "Success" });
   } catch (error) {
     res.status(500).send({ status: error.message });

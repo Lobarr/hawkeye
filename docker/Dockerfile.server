@@ -1,0 +1,15 @@
+
+FROM node:8-alpine
+
+# Copy app directory into container
+COPY . /hawkeye
+WORKDIR /hawkeye
+
+# Install app dependencies
+RUN yarn install
+
+# Start app
+CMD yarn run server
+
+# Expose app process
+EXPOSE 3001 

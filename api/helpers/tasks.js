@@ -1,8 +1,7 @@
-require("dotenv").config();
 const Users = require("../models/users");
 const Streams = require("../models/streams");
 
-module.exports = agenda => {
+module.exports = (agenda) => {
   agenda.define(
     "delete user streams",
     {
@@ -13,6 +12,7 @@ module.exports = agenda => {
       try {
         const { id } = job.attrs.data;
         const userStreams = await Streams.getUserStreams(id);
+
         userStreams.forEach(async stream => {
           await Streams.remove(stream._id);
         });

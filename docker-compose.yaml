@@ -1,0 +1,38 @@
+version: "2"
+services:
+  apidoc:
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile.apidoc
+    ports: 
+      - "5000:5000"
+    volumes:
+      - ./:/hawkeye
+  client:
+    build:
+        context: ./client
+        dockerfile: ../docker/Dockerfile.client
+    ports:
+      - "3000:3000"
+    volumes: 
+      - ./client:/client
+    depends_on:
+      - server
+  database:
+    image: "mongo:latest"
+    ports: 
+      - "27017:27017"
+  server: 
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile.server
+    environment: 
+      - MONGO_URL=mongodb://database
+      - NODE_ENV=development
+      - PORT=3001
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./:/hawkeye
+    depends_on: 
+      - database

@@ -1,0 +1,14 @@
+FROM node:8-alpine
+
+# Copy app directory into container
+COPY . /hawkeye
+WORKDIR /hawkeye
+
+# Install app dependencies
+RUN yarn install
+
+# Start apidoc server
+CMD yarn run apidoc
+
+# Expose apidoc process
+EXPOSE 5000

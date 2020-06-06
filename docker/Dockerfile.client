@@ -1,0 +1,15 @@
+
+FROM node:8-alpine
+
+# Copy app directory into container
+COPY . /client
+WORKDIR /client
+
+# Install app dependencies
+RUN yarn install
+
+# Start app
+CMD yarn run start
+
+# Expose app process
+EXPOSE 3000 

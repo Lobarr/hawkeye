@@ -1,8 +1,7 @@
 {
   "name": "hawkeye",
   "version": "0.1.0",
-  "description":
-    "A web application that allows users view rtsp and rtmp streams for ip cameras",
+  "description": "A web application that allows users view rtsp and rtmp streams for ip cameras",
   "main": "index.js",
   "private": true,
   "repository": {
@@ -15,6 +14,7 @@
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
+    "compression": "^1.7.4",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.15.5",
@@ -25,21 +25,23 @@
     "mongoose": "^4.11.13",
     "morgan": "^1.8.2",
     "path": "^0.12.7",
+    "signale": "^1.4.0",
     "underscore": "^1.8.3"
   },
   "scripts": {
-    "start-prod": "npm-rull-all -p client server",
-    "start-dev": "npm-run-all -p apidoc client server",
-    "server": "nodemon index.js",
-    "test-server": "mocha ./api/tests/*",
-    "test-server-unit": "mocha ./api/tests/unit",
-    "test-server-integration": "mocha ./api/tests/integration",
     "apidoc": "npm-run-all -p watch-apidoc start-apidoc",
-    "watch-apidoc": "nodemon --exec yarn run build-apidoc",
-    "start-apidoc": "live-server --port=5000 --quiet ./apidoc",
     "build-apidoc": "apidoc -i ./api/router -o ./apidoc",
+    "build-client": "cd ./client && yarn run build",
     "client": "cd ./client && yarn run client",
-    "build-client": "cd ./client && yarn run build"
+    "server": "nodemon -L index.js",
+    "start-apidoc": "live-server --port=5000 --quiet ./apidoc",
+    "start-dev": "docker-compose up --build --remove-orphans",
+    "start": "node index.js",
+    "test-server-integration": "mocha ./api/tests/integration",
+    "test-server-unit": "mocha ./api/tests/unit",
+    "test-server": "mocha ./api/tests/*",
+    "test": "yarn run test-server",
+    "watch-apidoc": "nodemon -L --exec yarn run build-apidoc"
   },
   "devDependencies": {
     "apidoc": "^0.17.6",

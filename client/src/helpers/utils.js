@@ -4,9 +4,7 @@ export const utils = {
   api() {
     return process.env.REACT_APP_API;
   },
-  api_dev() {
-    return "http://localhost:3001";
-  },
+
   resetToken() {
     sessionStorage.removeItem("hawkeye");
   },
@@ -19,8 +17,7 @@ export const utils = {
    */
   async call(payload) {
     return axios({
-      baseURL:
-        process.env.NODE_ENV === "production" ? utils.api() : utils.api_dev(),
+      baseURL: utils.api(),
       url: payload.endpoint,
       method: payload.method ? payload.method : "get",
       headers: {

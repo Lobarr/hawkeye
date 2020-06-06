@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^2.13.10",
+    "axios": "^0.19.2",
     "history": "^4.7.2",
     "moment": "^2.19.1",
     "node-sass-chokidar": "^0.0.3",
@@ -14,7 +15,8 @@
     "react-scripts": "1.0.14",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "underscore": "^1.10.2"
   },
   "scripts": {
     "start": "react-scripts start",
