@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const { streamModel } = require("./stream.schema");
 const { URL } = require("url");
 
@@ -15,12 +16,17 @@ module.exports = {
    */
   async create(payload) {
     const { name, url, location, resolution, owner } = payload;
-    if (!(name && url && location && resolution && owner)) {
+    if (
+      name === undefined ||
+      url === undefined ||
+      location === undefined ||
+      resolution === undefined ||
+      owner === undefined
+    ) {
       throw new Error("Incomplete Parameters");
     }
 
-    const streamURL = new URL(url);
-    if (!streamURL.protocol.includes("rtmp://")) {
+    if (!url.includes("rtmp://")) {
       throw new Error("Invalid URL");
     }
 
@@ -81,7 +87,7 @@ module.exports = {
 
     const stream = await streamModel.findById(id);
 
-    return stream;
+    return stream.toObject();
   },
 
   /**

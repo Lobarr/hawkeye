@@ -13,7 +13,7 @@ module.exports = (agenda) => {
         const userStreams = await streamService.getUserStreams(id);
 
         userStreams.forEach(async (stream) => {
-          await Streams.remove(stream._id);
+          await streamService.remove(stream._id);
         });
 
         done();

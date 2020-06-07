@@ -44,19 +44,27 @@ router.post("/stream", async (req, res) => {
   try {
     const { name, url, location, resolution } = req.body;
 
-    if (!(name && url && location && resolution)) {
-      res.status(httpStatus.BAD_REQUEST).send({ status: "Incomplete Request" });
+    if (
+      name === undefined ||
+      url === undefined ||
+      location === undefined ||
+      resolution === undefined
+    ) {
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ status: "Incomplete Request" });
     }
-
     const streamsCount = await streamService.getUserStreamsCount(req.user._id);
     if (streamsCount >= 6) {
-      res.status(httpStatus.BAD_REQUEST).send({
+      return res.status(httpStatus.BAD_REQUEST).send({
         status: "You have reached the maximum limit of streams allowed",
       });
     }
 
     if (!(resolution === "720p" || resolution === "D1")) {
-      res.status(httpStatus.BAD_REQUEST).send({ status: "Invalid resolution" });
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ status: "Invalid resolution" });
     }
 
     await streamService.create({
@@ -69,6 +77,7 @@ router.post("/stream", async (req, res) => {
 
     res.send({ status: http.STATUS_CODES[httpStatus.OK] });
   } catch (error) {
+    console.log(error);
     res
       .status(httpStatus.INTERNAL_SERVER_ERROR)
       .send({ status: error.message });
@@ -114,14 +123,16 @@ router.patch("/stream", async (req, res) => {
     const { id, name, url, location, resolution } = req.body;
 
     if (!(id && name && url && location && resolution)) {
-      res.status(httpStatus.BAD_REQUEST).send({ status: "Incomplete Request" });
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ status: "Incomplete Request" });
     }
 
     const stream = await streamService.getStream(id);
     const owner = await userService.getByID(stream.owner);
 
     if (owner.username !== req.user.username) {
-      res.status(httpStatus.UNAUTHORIZED).send({
+      return res.status(httpStatus.UNAUTHORIZED).send({
         status: http.STATUS_CODES[httpStatus.UNAUTHORIZED],
       });
     }
@@ -171,24 +182,28 @@ router.get("/stream/:id", async (req, res) => {
     const { id } = req.params;
 
     if (!id) {
-      res.status(http.BAD_REQUEST).send({ status: "Incomplete Request" });
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ status: "Incomplete Request" });
     }
 
-    const stream = await Streams.getStream(id);
+    const stream = await streamService.getStream(id);
     const owner = await userService.getByID(stream.owner);
 
     if (owner.username !== req.user.username) {
-      res.status(httpStatus.UNAUTHORIZED).send({
+      return res.status(httpStatus.UNAUTHORIZED).send({
         status: http.STATUS_CODES[httpStatus.UNAUTHORIZED],
       });
     }
 
     res.send({
       status: http.STATUS_CODES[httpStatus.OK],
-      data: _.omit(stream._doc, "owner", "__v"),
+      data: _.omit(stream, "owner", "__v"),
     });
   } catch (error) {
-    res.status(http.INTERNAL_SERVER_ERROR).send({ status: error.message });
+    res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .send({ status: error.message });
   }
 });
 
@@ -219,14 +234,16 @@ router.delete("/stream/:id", async (req, res) => {
     const { id } = req.params;
     const { user } = req;
     if (!id) {
-      res.status(httpStatus.BAD_REQUEST).send({ status: "Incomplete Request" });
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ status: "Incomplete Request" });
     }
 
     const stream = await streamService.getStream(id);
     const owner = await userService.getByID(stream.owner);
 
     if (owner.username !== user.username) {
-      res.status(httpStatus.UNAUTHORIZED).send({
+      return res.status(httpStatus.UNAUTHORIZED).send({
         status: http.STATUS_CODES[httpStatus.UNAUTHORIZED],
       });
     }
@@ -275,7 +292,7 @@ router.delete("/stream/:id", async (req, res) => {
  *  "status": "some error message"
  * }
  */
-router.get("/streams", async (req, res) => {
+router.get("/stream", async (req, res) => {
   try {
     const { user } = req;
 

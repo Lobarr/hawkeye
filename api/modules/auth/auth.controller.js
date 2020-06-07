@@ -30,9 +30,9 @@ router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    if (!(username && password)) {
-      res.status(httpStatus.BAD_REQUEST).send({
-        status: http.STATUS_CODES[http.BAD_REQUEST],
+    if (username === undefined || password === undefined) {
+      return res.status(httpStatus.BAD_REQUEST).send({
+        status: http.STATUS_CODES[httpStatus.BAD_REQUEST],
       });
     }
 
@@ -90,11 +90,15 @@ router.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    if (!(username && email && password)) {
-      res.status(httpStatus.BAD_REQUEST).send({ status: "Incomplete Request" });
+    if (
+      username === undefined ||
+      email === undefined ||
+      password === undefined
+    ) {
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ status: "Incomplete Request" });
     }
-
-    console.log("moved on", req.body);
 
     await userService.create({ username, email, password });
 

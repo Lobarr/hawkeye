@@ -2,6 +2,7 @@ const { JWT_SECRET } = require("../../config");
 const { userModel } = require("./user.schema");
 const authService = require("../auth/auth.service");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 module.exports = {
   /**
@@ -39,7 +40,7 @@ module.exports = {
    * @param {string} newUsername - used to update a user's username
    */
   async updateUsername(oldUsername, newUsername) {
-    await UserModel.findOneAndUpdate(
+    await userModel.findOneAndUpdate(
       { username: oldUsername },
       { username: newUsername }
     );
@@ -105,7 +106,7 @@ module.exports = {
       throw new Error("User Not Found");
     }
 
-    return user;
+    return user.toObject();
   },
 
   /**

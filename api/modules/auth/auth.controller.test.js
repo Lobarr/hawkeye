@@ -1,13 +1,14 @@
 const { makeApp } = require("../../setup");
 const authController = require("./auth.controller");
 const chai = require("chai");
+const httpStatus = require("http-status-codes");
 
 chai.use(require("chai-http"));
 
 const assert = chai.assert;
 const server = makeApp([authController]);
 
-describe("Test for auth router", () => {
+describe("authController", () => {
   const userDetails = {
     username: "auth",
     password: "password",
@@ -17,94 +18,53 @@ describe("Test for auth router", () => {
 
   describe("/signup", () => {
     it("should create a user", async () => {
-      const res = await chai
-        .request(server)
-        .post("/v1/signup")
-        .send(userDetails);
+      const res = await chai.request(server).post("/signup").send(userDetails);
 
-      assert.strictEqual(res.status, 200);
+      assert.strictEqual(res.status, httpStatus.OK);
       assert.strictEqual(res.body.status, "Success");
     });
 
-    it("should return Incomplete Request", async () => {
-      // chai
-      //   .request(server)
-      //   .post("/v1/signup")
-      //   .send({})
-      //   .end((err, res) => {
-      //     if (err) {
-      //       assert.strictEqual(res.status, 400, "didn't return status 400");
-      //       assert.exists(res.body.status, "didn't return a status");
-      //       assert.strictEqual(
-      //         res.body.status,
-      //         "Incomplete Request",
-      //         "didn't return right status"
-      //       );
-      //     } else {
-      //       assert.isOk(false, "didn't throw an error");
-      //     }
-      //     done();
-      //   });
-      let res;
-
+    it("should valiate request", async () => {
       try {
-        await chai.request(server).post("/v1/signup").send({});
+        await chai.request(server).post("/signup").send({});
 
         assert.fail();
-      } catch (res) {
-        console.log(res.status, res.body);
-        assert.strictEqual(res.status, 400, "didn't return status 400");
-        assert.exists(res.body.status, "didn't return a status");
-        assert.strictEqual(
-          res.body.status,
-          "Incomplete Request",
-          "didn't return right status"
-        );
+      } catch (error) {
+        res = error.response;
+
+        assert.strictEqual(res.status, httpStatus.BAD_REQUEST);
+        assert.exists(res.body.status);
+        assert.strictEqual(res.body.status, "Incomplete Request");
       }
     });
   });
 
   describe("/login", () => {
-    it("should return token", (done) => {
-      chai
-        .request(server)
-        .post("/v1/login")
-        .send({
-          username: userDetails.username,
-          password: userDetails.password,
-        })
-        .end((err, res) => {
-          if (err) {
-            assert.isOk(
-              false,
-              `Error: ${err.message} | Status: ${res.body.status}`
-            );
-          }
+    it("should return token", async () => {
+      const res = await chai.request(server).post("/login").send({
+        username: userDetails.username,
+        password: userDetails.password,
+      });
 
-          userToken = res.body.data.token;
-          assert.strictEqual(res.status, 200, "didn't return status 200");
-          assert.exists(res.body.data.token, "didn't return token");
-          done();
-        });
+      userToken = res.body.data.token;
+      assert.strictEqual(res.status, httpStatus.OK);
+      assert.exists(res.body.data.token);
     });
 
-    it("should return 401", (done) => {
-      chai
-        .request(server)
-        .post("/v1/login")
-        .send({
+    it("should not authorize user", async () => {
+      try {
+        await chai.request(server).post("/login").send({
           username: userDetails.username,
           password: "some-wrong-password",
-        })
-        .end((err, res) => {
-          if (err) {
-            assert.strictEqual(res.status, 401, "didn't return status 401");
-            assert.exists(res.body.status, "didn't return status");
-          } else {
-            assert.isOk(false);
-          }
-          done();
         });
+
+        assert.fail();
+      } catch (error) {
+        res = error.response;
+
+        assert.strictEqual(res.status, httpStatus.UNAUTHORIZED);
+        assert.exists(res.body.status, "didn't return status");
+      }
     });
   });
 });

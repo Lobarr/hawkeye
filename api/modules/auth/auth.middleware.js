@@ -1,6 +1,7 @@
-const userService = require("../user/user.service");
 const http = require("http");
 const httpStatus = require("http-status-codes");
+const jwt = require("jsonwebtoken");
+const userService = require("../user/user.service");
 
 /**
  * Auth middleware that authenticates users

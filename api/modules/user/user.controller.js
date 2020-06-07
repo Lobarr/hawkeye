@@ -6,6 +6,8 @@ const router = require("express").Router();
 const streamService = require("../stream/stream.service");
 const userService = require("./user.service");
 
+const agenda = makeAgenda();
+
 router.use(authMiddleware); // auth middleware
 
 /**
@@ -41,7 +43,7 @@ router.get("/user/me", async (req, res) => {
 
     res.send({
       status: http.STATUS_CODES[httpStatus.OK],
-      data: { id: _id, username, email },
+      data: { _id, username, email },
     });
   } catch (error) {
     res

@@ -25,14 +25,10 @@ module.exports = (controllers = [], middlewares = []) => {
   // Enable logging for development environment
   if (NODE_ENV === "development") morgan("short");
 
-  rootRouter = express.Router();
-
-  for (const controller of controllers) {
-    rootRouter.use(controller);
-  }
-
   // Attach provided controllers
-  app.use("/v1", rootRouter);
+  for (const controller of controllers) {
+    app.use(controller);
+  }
 
   // Attach provided middlewares
   for (const middleware of middlewares) {
