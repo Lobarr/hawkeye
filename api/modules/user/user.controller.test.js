@@ -7,17 +7,14 @@
 
 const _ = require("underscore");
 const { makeApp } = require("../../setup");
-const authController = require("../auth/auth.controller");
-const userController = require("../user/user.controller");
 const chai = require("chai");
 const httpStatus = require("http-status-codes");
-
-chai.use(require("chai-http"));
+const makeAgent = require("../../testUtils/makeAgent");
 
 const assert = chai.assert;
-const server = makeApp([authController, userController]);
 
 describe("userController", () => {
+  const agent = makeAgent();
   const userDetails = {
     username: "user",
     password: "password",
@@ -26,21 +23,15 @@ describe("userController", () => {
   let userToken;
 
   before(async () => {
-    await chai.request(server).post("/signup").send(userDetails);
-    const res = await chai
-      .request(server)
-      .post("/login")
-      .send(_.omit(userDetails, "email"));
+    await agent.post("/signup").send(userDetails);
+    const res = await agent.post("/login").send(_.omit(userDetails, "email"));
 
     userToken = res.body.data.token;
   });
 
   describe("/user/me / GET", () => {
     it("should get user info", async () => {
-      const res = await chai
-        .request(server)
-        .get("/user/me")
-        .set("x-hawkeye-token", userToken);
+      const res = await agent.get("/user/me").set("x-hawkeye-token", userToken);
 
       data = res.body.data;
 
@@ -56,8 +47,7 @@ describe("userController", () => {
     it("should update username", async () => {
       const username = "someUsername";
 
-      const res = await chai
-        .request(server)
+      const res = await agent
         .patch("/user/me")
         .send({ username })
         .set("x-hawkeye-token", userToken);
@@ -74,17 +64,14 @@ describe("userController", () => {
   });
   describe("/user/me / DEL", () => {
     it("should delete user", async () => {
-      const res = await chai
-        .request(server)
-        .del("/user/me")
-        .set("x-hawkeye-token", userToken);
+      const res = await agent.del("/user/me").set("x-hawkeye-token", userToken);
 
       assert.exists(res.body.status, "didn't return status in body");
     });
 
     it("should return no token passed", async () => {
       try {
-        await chai.request(server).del("/user/me");
+        await agent.del("/user/me");
 
         assert.fail();
       } catch (error) {

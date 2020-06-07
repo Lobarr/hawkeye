@@ -1,14 +1,12 @@
 const { makeApp } = require("../../setup");
-const authController = require("./auth.controller");
 const chai = require("chai");
 const httpStatus = require("http-status-codes");
-
-chai.use(require("chai-http"));
+const makeAgent = require("../../testUtils/makeAgent");
 
 const assert = chai.assert;
-const server = makeApp([authController]);
 
 describe("authController", () => {
+  const agent = makeAgent();
   const userDetails = {
     username: "auth",
     password: "password",
@@ -18,7 +16,7 @@ describe("authController", () => {
 
   describe("/signup", () => {
     it("should create a user", async () => {
-      const res = await chai.request(server).post("/signup").send(userDetails);
+      const res = await agent.post("/signup").send(userDetails);
 
       assert.strictEqual(res.status, httpStatus.OK);
       assert.strictEqual(res.body.status, "Success");
@@ -26,7 +24,7 @@ describe("authController", () => {
 
     it("should valiate request", async () => {
       try {
-        await chai.request(server).post("/signup").send({});
+        await agent.post("/signup").send({});
 
         assert.fail();
       } catch (error) {
@@ -41,7 +39,7 @@ describe("authController", () => {
 
   describe("/login", () => {
     it("should return token", async () => {
-      const res = await chai.request(server).post("/login").send({
+      const res = await agent.post("/login").send({
         username: userDetails.username,
         password: userDetails.password,
       });
@@ -53,7 +51,7 @@ describe("authController", () => {
 
     it("should not authorize user", async () => {
       try {
-        await chai.request(server).post("/login").send({
+        await agent.post("/login").send({
           username: userDetails.username,
           password: "some-wrong-password",
         });

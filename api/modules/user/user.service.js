@@ -14,13 +14,12 @@ module.exports = {
    * @param {string} payload.password - The password to be written to the db
    * @throws {string} - Duplicate username/email attempted
    */
-  async create(payload) {
+  async create({ username, email, password }) {
     try {
-      const { username, email, password } = payload;
       const hash = await authService.hashPassword(password);
       const token = await authService.generateToken(username);
 
-      const newUser = userModel({
+      const newUser = new userModel({
         username,
         email,
         password: hash,
@@ -29,7 +28,6 @@ module.exports = {
 
       await newUser.save();
     } catch (error) {
-      console.log(error);
       throw new Error("Duplicate username/email attempted"); // custom error message
     }
   },

@@ -1,4 +1,4 @@
-const router = require("express").Router();
+const authController = require("express").Router();
 const userService = require("../user/user.service");
 const httpStatus = require("http-status-codes");
 const http = require("http");
@@ -26,14 +26,15 @@ const http = require("http");
  *  "status": "Incomplete Request"
  * }
  */
-router.post("/login", async (req, res) => {
+authController.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
     if (username === undefined || password === undefined) {
-      return res.status(httpStatus.BAD_REQUEST).send({
+      res.status(httpStatus.BAD_REQUEST).send({
         status: http.STATUS_CODES[httpStatus.BAD_REQUEST],
       });
+      return;
     }
 
     const token = await userService.validate(username, password);
@@ -86,7 +87,7 @@ router.post("/login", async (req, res) => {
  *  "status": "Incomplete Request"
  * }
  */
-router.post("/signup", async (req, res) => {
+authController.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
@@ -95,9 +96,8 @@ router.post("/signup", async (req, res) => {
       email === undefined ||
       password === undefined
     ) {
-      return res
-        .status(httpStatus.BAD_REQUEST)
-        .send({ status: "Incomplete Request" });
+      res.status(httpStatus.BAD_REQUEST).send({ status: "Incomplete Request" });
+      return;
     }
 
     await userService.create({ username, email, password });
@@ -110,4 +110,4 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = authController;

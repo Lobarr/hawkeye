@@ -1,10 +1,11 @@
-const { makeAgenda, makeApp, connectToDB } = require("./api/setup");
+const {
+  makeAgenda,
+  makeApp,
+  connectToDB,
+  controllers,
+} = require("./api/setup");
 const { PORT } = require("./api/config");
-const authController = require("./api/modules/auth/auth.controller");
-const healthzController = require("./api/modules/healthz/healthz.controller");
 const signale = require("signale");
-const streamController = require("./api/modules/stream/stream.controller");
-const userController = require("./api/modules/user/user.controller");
 const userTask = require("./api/modules/user/user.task");
 
 (() => {
@@ -12,15 +13,12 @@ const userTask = require("./api/modules/user/user.task");
   Promise.resolve(connectToDB).catch((err) => signale.fatal(err));
 
   // Setup app
-  const app = makeApp([
-    healthzController,
-    authController,
-    streamController,
-    userController,
-  ]);
+  const app = makeApp(controllers);
 
   // Create and register agenda tasks
   const agenda = makeAgenda([userTask]);
+
+  app.locals["agendaInstance"] = agenda;
 
   agenda.on("ready", () => {
     app.listen(PORT, () => {

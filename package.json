@@ -28,12 +28,11 @@
     "morgan": "^1.8.2",
     "path": "^0.12.7",
     "signale": "^1.4.0",
-    "sinon": "^9.0.2",
     "underscore": "^1.8.3"
   },
   "scripts": {
     "apidoc": "npm-run-all -p watch-apidoc start-apidoc",
-    "build-apidoc": "apidoc -i ./api/router -o ./apidoc",
+    "build-apidoc": "apidoc -i ./api/modules/**/*.controller.js -o ./apidoc",
     "build-client": "cd ./client && yarn run build",
     "client": "cd ./client && yarn run client",
     "server": "nodemon -L index.js",
@@ -42,8 +41,8 @@
     "start": "node index.js",
     "test-server-integration": "mocha ./api/tests/integration",
     "test-server-unit": "mocha ./api/tests/unit",
-    "test-server": "mocha --file ./api/testUtils/setupMongo.js --exit ./api/modules/*",
-    "test-server-watch": "mocha --watch --file ./api/testUtils/setupMongo.js --exit ./api/modules/*",
+    "test-server": "mocha --opts ./mocha.opts --exit ./api/modules/*",
+    "test-server-watch": "mocha --opts ./mocha.opts --watch ./api/modules/*",
     "test": "yarn run test-server",
     "watch-apidoc": "nodemon -L --exec yarn run build-apidoc"
   },
@@ -52,7 +51,7 @@
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "live-server": "^1.2.0",
-    "mocha": "^3.5.3",
+    "mocha": "6",
     "mongodb-memory-server": "^6.6.1",
     "nodemon": "^1.12.1",
     "npm-run-all": "^4.1.2"

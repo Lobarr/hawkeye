@@ -1,4 +1,4 @@
-const router = require("express").Router();
+const healthzController = require("express").Router();
 
 /**
  * @api {get} /healthz Request Status of the server
@@ -11,10 +11,10 @@ const router = require("express").Router();
  *  status: "running"
  * }
  */
-router.get("/healthz", (_, res) => {
+healthzController.get("/healthz", (_, res) => {
   res.send({
-    status: "running"
+    status: "running",
   });
 });
 
-module.exports = router;
+module.exports = healthzController;

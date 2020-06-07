@@ -1,12 +1,12 @@
 const _ = require("underscore");
 const authMiddleware = require("../auth/auth.middleware");
-const router = require("express").Router();
+const streamController = require("express").Router();
 const streamService = require("./stream.service");
 const userService = require("../user/user.service");
 const httpStatus = require("http-status-codes");
 const http = require("http");
 
-router.use(authMiddleware); // auth middleware
+streamController.use("/stream", authMiddleware); // auth middleware
 
 /**
  * @api {post} /stream Create stream
@@ -40,7 +40,7 @@ router.use(authMiddleware); // auth middleware
  *  "status": "some error message"
  * }
  */
-router.post("/stream", async (req, res) => {
+streamController.post("/stream", async (req, res) => {
   try {
     const { name, url, location, resolution } = req.body;
 
@@ -118,7 +118,7 @@ router.post("/stream", async (req, res) => {
  *  "status": "some error message"
  * }
  */
-router.patch("/stream", async (req, res) => {
+streamController.patch("/stream", async (req, res) => {
   try {
     const { id, name, url, location, resolution } = req.body;
 
@@ -177,7 +177,7 @@ router.patch("/stream", async (req, res) => {
  *  "status": "some error message"
  * }
  */
-router.get("/stream/:id", async (req, res) => {
+streamController.get("/stream/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -229,7 +229,7 @@ router.get("/stream/:id", async (req, res) => {
  *  "status": "some error message"
  * }
  */
-router.delete("/stream/:id", async (req, res) => {
+streamController.delete("/stream/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { user } = req;
@@ -292,7 +292,7 @@ router.delete("/stream/:id", async (req, res) => {
  *  "status": "some error message"
  * }
  */
-router.get("/stream", async (req, res) => {
+streamController.get("/stream", async (req, res) => {
   try {
     const { user } = req;
 
@@ -309,4 +309,4 @@ router.get("/stream", async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = streamController;

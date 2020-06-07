@@ -1,14 +1,11 @@
-const { makeAgenda } = require("../../setup");
 const authMiddleware = require("../auth/auth.middleware");
 const http = require("http");
 const httpStatus = require("http-status-codes");
-const router = require("express").Router();
+const userController = require("express").Router();
 const streamService = require("../stream/stream.service");
 const userService = require("./user.service");
 
-const agenda = makeAgenda();
-
-router.use(authMiddleware); // auth middleware
+userController.use("/user", authMiddleware); // auth middleware
 
 /**
  * @api {get} /user/me Get user info
@@ -35,7 +32,7 @@ router.use(authMiddleware); // auth middleware
  *  "status": "some error message"
  * }
  */
-router.get("/user/me", async (req, res) => {
+userController.get("/user/me", async (req, res) => {
   try {
     const { _id, username, email } = await userService.getByUsername(
       req.user.username
@@ -73,12 +70,14 @@ router.get("/user/me", async (req, res) => {
  *  "status": "some error message"
  * }
  */
-router.delete("/user/me", async (req, res) => {
+userController.delete("/user/me", async (req, res) => {
   try {
     const { username } = req.user;
+    const { agendaInstance } = req.app.locals;
 
     await userService.remove(username);
-    agenda.now("delete user streams", { id: req.user._id });
+
+    agendaInstance.now("delete user streams", { id: req.user._id });
 
     res.send({ status: http.STATUS_CODES[httpStatus.OK] });
   } catch (error) {
@@ -120,7 +119,7 @@ router.delete("/user/me", async (req, res) => {
  *  "status": "some error message"
  * }
  */
-router.patch("/user/me", async (req, res) => {
+userController.patch("/user/me", async (req, res) => {
   try {
     const { username } = req.body;
 
@@ -141,4 +140,4 @@ router.patch("/user/me", async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = userController;

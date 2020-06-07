@@ -8,6 +8,7 @@ module.exports = async () => {
       useNewUrlParser: true,
       useFindAndModify: false,
       useUnifiedTopology: true,
+      promiseLibrary: Promise,
     };
 
     await mongoose.connect(MONGO_URL, mongooseConfig);

@@ -5,8 +5,9 @@ const mongod = new MongoMemoryServer();
 
 before(async () => {
   const mongoUrl = await mongod.getConnectionString();
+
   await mongoose.connect(mongoUrl, {
-    promiseLibrary: require("bluebird"),
+    promiseLibrary: Promise,
   });
 });
 

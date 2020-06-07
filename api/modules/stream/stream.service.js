@@ -30,7 +30,7 @@ module.exports = {
       throw new Error("Invalid URL");
     }
 
-    const newStream = streamModel({
+    const newStream = new streamModel({
       name,
       url,
       location,

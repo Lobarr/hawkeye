@@ -1,17 +1,13 @@
 const _ = require("underscore");
 const { makeApp } = require("../../setup");
-const authController = require("../auth/auth.controller");
 const chai = require("chai");
 const httpStatus = require("http-status-codes");
-const streamController = require("./stream.controller");
-const userController = require("../user/user.controller");
-
-chai.use(require("chai-http"));
+const makeAgent = require("../../testUtils/makeAgent");
 
 const assert = chai.assert;
-const server = makeApp([authController, streamController, userController]);
 
 describe("streamController", () => {
+  const agent = makeAgent();
   const mockUserDetails = {
     username: "stream",
     password: "password",
@@ -28,10 +24,9 @@ describe("streamController", () => {
   let userToken, userStreams;
 
   before(async () => {
-    await chai.request(server).post("/signup").send(mockUserDetails);
+    await agent.post("/signup").send(mockUserDetails);
 
-    const res = await chai
-      .request(server)
+    const res = await agent
       .post("/login")
       .send(_.omit(mockUserDetails, "email"));
 
@@ -39,16 +34,12 @@ describe("streamController", () => {
   });
 
   after(async () => {
-    await chai
-      .request(server)
-      .del("/user/me")
-      .set("x-hawkeye-token", userToken);
+    await agent.del("/user/me").set("x-hawkeye-token", userToken);
   });
 
   describe("/stream / POST", () => {
     it("should create stream", async () => {
-      const res = await chai
-        .request(server)
+      const res = await agent
         .post("/stream")
         .send(mockStream)
         .set("x-hawkeye-token", userToken);
@@ -58,10 +49,7 @@ describe("streamController", () => {
 
     it("should validate payload", async () => {
       try {
-        await chai
-          .request(server)
-          .post("/stream")
-          .set("x-hawkeye-token", userToken);
+        await agent.post("/stream").set("x-hawkeye-token", userToken);
 
         assert.fail();
       } catch (error) {
@@ -83,8 +71,7 @@ describe("streamController", () => {
 
     it("should return Invalid resolution", async () => {
       try {
-        await chai
-          .request(server)
+        await agent
           .post("/stream")
           .send(Object.assign(mockStream, { resolution: "1080" }))
           .set("x-hawkeye-token", userToken);
@@ -106,10 +93,7 @@ describe("streamController", () => {
 
   describe("/stream / GET", () => {
     it("should get user's streams", async () => {
-      const res = await chai
-        .request(server)
-        .get("/stream")
-        .set("x-hawkeye-token", userToken);
+      const res = await agent.get("/stream").set("x-hawkeye-token", userToken);
 
       assert.isArray(res.body.data);
       assert.isNotEmpty(res.body.data, "returned empty array");
@@ -119,8 +103,7 @@ describe("streamController", () => {
 
   describe("/stream/:id / GET", () => {
     it("should get stream", async () => {
-      const res = await chai
-        .request(server)
+      const res = await agent
         .get(`/stream/${userStreams[0]._id}`)
         .set("x-hawkeye-token", userToken);
 
@@ -130,8 +113,7 @@ describe("streamController", () => {
 
   describe("/stream / PATCH", () => {
     it("should update stream", async () => {
-      const res = await chai
-        .request(server)
+      const res = await agent
         .patch("/stream")
         .send(
           Object.assign({}, _.omit(userStreams[0], "_id"), {
@@ -147,8 +129,7 @@ describe("streamController", () => {
 
   describe("/stream/:id / DELETE", () => {
     it("should delete stream", async () => {
-      const res = await chai
-        .request(server)
+      const res = await agent
         .del(`/stream/${userStreams[0]._id}`)
         .set("x-hawkeye-token", userToken);
 
