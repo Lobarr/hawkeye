@@ -1,51 +1,31 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import createBrowserHistory from "history/createBrowserHistory";
-import registerServiceWorker from "./helpers/registerServiceWorker";
-import store from "./store";
-import { Router, Switch, Route, Redirect } from "react-router-dom";
-import { Provider } from "react-redux";
 import "./index.css";
 import "antd/dist/antd.css";
-
+import { Provider } from "react-redux";
+import { Router, Switch, Route, Redirect } from "react-router-dom";
+import createBrowserHistory from "history/createBrowserHistory";
+import React from "react";
+import ReactDOM from "react-dom";
+import registerServiceWorker from "./helpers/registerServiceWorker";
+import { makeStore } from "./store/index";
 import { Login, Signup, Dashboard } from "./views/index";
+import { utils } from "./helpers/utils";
 
 class Index extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.store = makeStore();
+  }
   render() {
+    const { store } = this;
+
     return (
       <Provider store={store}>
         <Router basename="/" history={createBrowserHistory()}>
           <Switch>
-            <Route
-              exact
-              path="/"
-              render={() =>
-                store.getState().general.access ? (
-                  <Dashboard />
-                ) : (
-                  <Redirect to="/login" />
-                )}
-            />
-            <Route
-              exact
-              path="/signup"
-              render={() =>
-                !store.getState().general.access ? (
-                  <Signup />
-                ) : (
-                  <Redirect to="/" />
-                )}
-            />
-            <Route
-              exact
-              path="/login"
-              render={() =>
-                !store.getState().general.access ? (
-                  <Login />
-                ) : (
-                  <Redirect to="/" />
-                )}
-            />
+            <ProtectedRoute exact path="/" component={Dashboard} />
+            <AuthRoute exact path="/signup" component={Signup} />
+            <AuthRoute exact path="/login" component={Login} />
             <Route component={NotFound} />
           </Switch>
         </Router>
@@ -54,17 +34,31 @@ class Index extends React.Component {
   }
 }
 
-// const Protected = ({ component, ...rest }) => (
-//   <Route
-//     {...rest}
-//     render={props =>
-//       sessionStorage.getItem("hawkeye") ? (
-//         <Component {...props} />
-//       ) : (
-//         <Redirect to="/login" />
-//       )}
-//   />
-// );
+const ProtectedRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      utils.isAuthenticated() === true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/login" }} />
+      )
+    }
+  />
+);
+
+const AuthRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      utils.isAuthenticated() === false ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/" }} />
+      )
+    }
+  />
+);
 
 const NotFound = () => <h1>Invalid Route</h1>;
 

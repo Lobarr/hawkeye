@@ -1,57 +1,57 @@
-import { utils } from "../helpers/utils";
-import { notify } from "../helpers/notification";
+import { utils } from "../../helpers/utils";
+import { notify } from "../../helpers/notification";
 
-export const create = payload => {
-  return async dispatch => {
+export const create = (payload) => {
+  return async (dispatch) => {
     try {
       await utils.call({
-        endpoint: "api/v1/stream",
+        endpoint: "/stream",
         method: "post",
-        data: payload
+        data: payload,
       });
       dispatch({ type: "CANCELMODAL" });
       dispatch(getStreams());
       notify({
         type: "success",
-        message: "Stream added!"
+        message: "Stream added!",
       });
     } catch (err) {
       if (!err.response) {
         notify({
           type: "error",
-          message: "Unable to connect to server!"
+          message: "Unable to connect to server!",
         });
       } else {
         notify({
           type: "error",
-          message: err.response.data.status
+          message: err.response.data.status,
         });
       }
     }
   };
 };
 
-export const remove = id => {
-  return async dispatch => {
+export const remove = (id) => {
+  return async (dispatch) => {
     try {
       await utils.call({
-        endpoint: `api/v1/stream/${id}`,
-        method: "delete"
+        endpoint: `/stream/${id}`,
+        method: "delete",
       });
       notify({
         type: "success",
-        message: "Stream removed!"
+        message: "Stream removed!",
       });
     } catch (err) {
       if (!err.response) {
         notify({
           type: "error",
-          message: "Unable to connect to server!"
+          message: "Unable to connect to server!",
         });
       } else {
         notify({
           type: "error",
-          message: err.response.data.status
+          message: err.response.data.status,
         });
       }
     }
@@ -59,51 +59,51 @@ export const remove = id => {
 };
 
 export const getStreams = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const res = await utils.call({
-        endpoint: "api/v1/streams"
+        endpoint: "/stream",
       });
       dispatch({ type: "STREAMS", payload: { streams: res.data } });
     } catch (err) {
       if (!err.response) {
         notify({
           type: "error",
-          message: "Unable to connect to server!"
+          message: "Unable to connect to server!",
         });
       } else {
         notify({
           type: "error",
-          message: err.response.data.status
+          message: err.response.data.status,
         });
       }
     }
   };
 };
 
-export const select = stream => {
-  return dispatch => {
+export const select = (stream) => {
+  return (dispatch) => {
     dispatch({ type: "SELECTSTREAM", payload: { stream } });
   };
 };
 
-export const getStream = id => {
-  return async dispatch => {
+export const getStream = (id) => {
+  return async (dispatch) => {
     try {
       const res = await utils.call({
-        endpoint: `api/v1/stream/${id}`
+        endpoint: `/stream/${id}`,
       });
       dispatch({ type: "STREAM", payload: { stream: res.data } });
     } catch (err) {
       if (!err.response) {
         notify({
           type: "error",
-          message: "Unable to connect to server!"
+          message: "Unable to connect to server!",
         });
       } else {
         notify({
           type: "error",
-          message: err.response.data.status
+          message: err.response.data.status,
         });
       }
     }
@@ -111,13 +111,13 @@ export const getStream = id => {
 };
 
 export const onView = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "VIEWMODAL" });
   };
 };
 
 export const onCancel = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "CANCELMODAL" });
   };
 };

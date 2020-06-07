@@ -8,10 +8,11 @@ import thunk from "redux-thunk";
 //reducers
 import rootReducer from "./reducers/index";
 
-let middlewares =
-  process.env.NODE_ENV === "production"
-    ? applyMiddleware(thunk)
-    : applyMiddleware(logger, thunk);
-let store = createStore(rootReducer, middlewares);
+export function makeStore() {
+  let middlewares =
+    process.env.NODE_ENV === "production"
+      ? applyMiddleware(thunk)
+      : applyMiddleware(logger, thunk);
 
-export default store;
+  return createStore(rootReducer, middlewares);
+}

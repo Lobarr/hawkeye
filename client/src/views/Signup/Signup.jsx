@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { signup } from "../../actions/auth";
+import { signup } from "../../store/actions/auth";
 import { Form, Input, Button, Icon, Row } from "antd";
 import { omit } from "underscore";
 import "./Signup.css";
@@ -36,9 +36,7 @@ class Signup extends React.Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    if (this.props.general.access) {
-      return <Redirect to="/" />;
-    }
+
     return (
       <div className="signup-container">
         <Row>
@@ -49,8 +47,8 @@ class Signup extends React.Component {
             <FormItem>
               {getFieldDecorator("username", {
                 rules: [
-                  { required: true, message: "Please input you username" }
-                ]
+                  { required: true, message: "Please input you username" },
+                ],
               })(
                 <Input
                   size="large"
@@ -65,16 +63,16 @@ class Signup extends React.Component {
                   {
                     required: true,
                     type: "email",
-                    message: "Please input you email"
-                  }
-                ]
+                    message: "Please input you email",
+                  },
+                ],
               })(<Input size="large" prefix="@" placeholder="Email" />)}
             </FormItem>
             <FormItem>
               {getFieldDecorator("password", {
                 rules: [
-                  { required: true, message: "Please input your password" }
-                ]
+                  { required: true, message: "Please input your password" },
+                ],
               })(
                 <Input
                   type="password"
@@ -88,8 +86,8 @@ class Signup extends React.Component {
               {getFieldDecorator("confirm", {
                 rules: [
                   { required: true, message: "Please confirm your password!" },
-                  { validator: this.checkPassword }
-                ]
+                  { validator: this.checkPassword },
+                ],
               })(
                 <Input
                   type="password"
@@ -120,15 +118,15 @@ class Signup extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    general: state.general
+    general: state.general,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    signup: payload => dispatch(signup(payload))
+    signup: (payload) => dispatch(signup(payload)),
   };
 };
 

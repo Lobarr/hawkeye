@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Popover, Menu, Icon } from "antd";
-import { logout } from "../../actions/auth";
-import { viewProfile, updateProfile, remove } from "../../actions/user";
+import { logout } from "../../store/actions/auth";
+import { viewProfile, updateProfile, remove } from "../../store/actions/user";
 import { ViewProfile, UpdateProfile, ConfirmDelete } from "../index";
 
 class UserPopover extends React.Component {
@@ -38,7 +38,8 @@ class UserPopover extends React.Component {
                     ConfirmDelete(
                       "Are you sure you want to be deleted?",
                       this.props.remove
-                    )}
+                    )
+                  }
                 >
                   <Icon type="delete" style={{ color: "red" }} />
                   <span>Delete Profile</span>
@@ -55,19 +56,19 @@ class UserPopover extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     general: state.general,
-    user: state.user
+    user: state.user,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     logout: () => dispatch(logout()),
     viewProfile: () => dispatch(viewProfile()),
     updateProfile: () => dispatch(updateProfile()),
-    remove: () => dispatch(remove())
+    remove: () => dispatch(remove()),
   };
 };
 

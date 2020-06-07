@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Form, Modal, Input, Select } from "antd";
-import { create, onCancel } from "../../actions/stream";
+import { create, onCancel } from "../../store/actions/stream";
 const FormItem = Form.Item;
 
 class CreateStream extends React.Component {
@@ -43,9 +43,9 @@ class CreateStream extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: "Please input the name of the stream"
-                }
-              ]
+                  message: "Please input the name of the stream",
+                },
+              ],
             })(<Input size="large" placeholder="Name" />)}
           </FormItem>
           <FormItem>
@@ -53,12 +53,12 @@ class CreateStream extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: "Please input the url of the stream"
+                  message: "Please input the url of the stream",
                 },
                 {
-                  validator: this.checkURL
-                }
-              ]
+                  validator: this.checkURL,
+                },
+              ],
             })(<Input size="large" placeholder="URL" />)}
           </FormItem>
           <FormItem>
@@ -66,9 +66,9 @@ class CreateStream extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: "Please input the location of the stream"
-                }
-              ]
+                  message: "Please input the location of the stream",
+                },
+              ],
             })(<Input size="large" placeholder="Location" />)}
           </FormItem>
           <FormItem>
@@ -76,9 +76,9 @@ class CreateStream extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: "Please input the resolution of the stream"
-                }
-              ]
+                  message: "Please input the resolution of the stream",
+                },
+              ],
             })(
               <Select placeholder="Select a resolution">
                 <Select.Option value="720p">720p</Select.Option>
@@ -92,17 +92,17 @@ class CreateStream extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     general: state.general,
-    stream: state.stream
+    stream: state.stream,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    create: payload => dispatch(create(payload)),
-    onCancel: () => dispatch(onCancel())
+    create: (payload) => dispatch(create(payload)),
+    onCancel: () => dispatch(onCancel()),
   };
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Form, Input, Button, Icon, Row } from "antd";
-import { login } from "../../actions/auth";
+import { login } from "../../store/actions/auth";
 import { Link, Redirect } from "react-router-dom";
 import { notify } from "../../helpers/notification";
 import "./Login.css";
@@ -24,15 +24,12 @@ class Login extends React.Component {
     } else {
       notify({
         type: "warning",
-        message: "Please use another browser"
+        message: "Please use another browser",
       });
     }
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    if (this.props.general.access) {
-      return <Redirect to="/" />;
-    }
     return (
       <div className="login-container">
         <Row>
@@ -43,8 +40,8 @@ class Login extends React.Component {
             <FormItem>
               {getFieldDecorator("username", {
                 rules: [
-                  { required: true, message: "Please input you username" }
-                ]
+                  { required: true, message: "Please input you username" },
+                ],
               })(
                 <Input
                   size="large"
@@ -56,8 +53,8 @@ class Login extends React.Component {
             <FormItem>
               {getFieldDecorator("password", {
                 rules: [
-                  { required: true, message: "Please input your password" }
-                ]
+                  { required: true, message: "Please input your password" },
+                ],
               })(
                 <Input
                   type="password"
@@ -87,15 +84,15 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    general: state.general
+    general: state.general,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    login: payload => dispatch(login(payload))
+    login: (payload) => dispatch(login(payload)),
   };
 };
 

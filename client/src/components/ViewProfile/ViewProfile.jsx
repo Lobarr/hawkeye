@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Modal, Button } from "antd";
-import { closeViewProfile } from "../../actions/user";
+import { closeViewProfile } from "../../store/actions/user";
 
 class ViewProfile extends React.Component {
   render() {
@@ -26,15 +26,15 @@ class ViewProfile extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    closeViewProfile: () => dispatch(closeViewProfile())
+    closeViewProfile: () => dispatch(closeViewProfile()),
   };
 };
 

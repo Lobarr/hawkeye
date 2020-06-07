@@ -1,28 +1,30 @@
-import { utils } from "../helpers/utils";
-import { notify } from "../helpers/notification";
+import { utils } from "../../helpers/utils";
+import { notify } from "../..//helpers/notification";
 
-export const login = payload => {
-  return async dispatch => {
+export const login = (payload) => {
+  return async (dispatch) => {
     try {
       //show loading
       dispatch({ type: "LOADING" });
-      const res = await utils.call({
-        endpoint: "/api/v1/login",
+      const { data } = await utils.call({
+        endpoint: "/login",
         method: "post",
-        data: payload
+        data: payload,
       });
-      sessionStorage.setItem("hawkeye", res.data.token);
+      console.log(data);
+      sessionStorage.setItem("hawkeye", data.data.token);
       dispatch({ type: "LOGIN" });
     } catch (err) {
+      console.log(err);
       if (!err.response) {
         notify({
           type: "error",
-          message: "Unable to connect to server!"
+          message: "Unable to connect to server!",
         });
       } else {
         notify({
           type: "error",
-          message: err.response.data.status
+          message: err.response.data.status,
         });
       }
     } finally {
@@ -31,29 +33,29 @@ export const login = payload => {
   };
 };
 
-export const signup = payload => {
-  return async dispatch => {
+export const signup = (payload) => {
+  return async (dispatch) => {
     try {
       dispatch({ type: "LOADING" });
       await utils.call({
-        endpoint: "/api/v1/signup",
+        endpoint: "/signup",
         method: "post",
-        data: payload
+        data: payload,
       });
       notify({
         type: "success",
-        message: "You have successfully signed up!"
+        message: "You have successfully signed up!",
       });
     } catch (err) {
       if (!err.response) {
         notify({
           type: "error",
-          message: "Unable to connect to server!"
+          message: "Unable to connect to server!",
         });
       } else {
         notify({
           type: "error",
-          message: err.response.data.status
+          message: err.response.data.status,
         });
       }
     } finally {
@@ -63,7 +65,7 @@ export const signup = payload => {
 };
 
 export const logout = () => {
-  return dispatch => {
+  return (dispatch) => {
     utils.resetToken();
     dispatch({ type: "LOGOUT" });
   };

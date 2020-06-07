@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Layout, Menu, Icon } from "antd";
-import { select } from "../../actions/stream";
+import { select } from "../../store/actions/stream";
 const { Sider } = Layout;
 const { Item, SubMenu } = Menu;
 
@@ -55,16 +55,16 @@ class Sidebar extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     general: state.general,
-    stream: state.stream
+    stream: state.stream,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    select: stream => dispatch(select(stream))
+    select: (stream) => dispatch(select(stream)),
   };
 };
 

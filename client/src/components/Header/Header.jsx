@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { Layout, Icon } from "antd";
 import { CreateStream, UserPopover } from "../index";
-import { onView } from "../../actions/stream";
-import { openPopover, closePopover } from "../../actions/user";
+import { onView } from "../../store/actions/stream";
+import { openPopover, closePopover } from "../../store/actions/user";
 import "./Header.css";
 const { Header } = Layout;
 
@@ -44,18 +44,18 @@ class DashboardHeader extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     general: state.general,
-    user: state.user
+    user: state.user,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onView: () => dispatch(onView()),
     openPopover: () => dispatch(openPopover()),
-    closePopover: () => dispatch(closePopover())
+    closePopover: () => dispatch(closePopover()),
   };
 };
 
