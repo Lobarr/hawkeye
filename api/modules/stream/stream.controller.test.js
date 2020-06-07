@@ -1,10 +1,10 @@
 const _ = require("underscore");
 const { makeApp } = require("../../setup");
-const streamController = require("./stream.controller");
 const authController = require("../auth/auth.controller");
-const userController = require("../user/user.controller");
 const chai = require("chai");
 const httpStatus = require("http-status-codes");
+const streamController = require("./stream.controller");
+const userController = require("../user/user.controller");
 
 chai.use(require("chai-http"));
 
