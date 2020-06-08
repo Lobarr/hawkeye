@@ -12,6 +12,7 @@ export const GeneralActions = {
   LOGOUT: "LOGOUT",
   LOADING: "LOADING",
   LOADED: "LOADED",
+  DISPLAYMODE: "DISPLAYMODE",
 };
 
 const general = (state = initState, action) => {
@@ -31,6 +32,10 @@ const general = (state = initState, action) => {
     case GeneralActions.LOADED:
       return Object.assign({}, state, {
         isLoading: false,
+      });
+    case GeneralActions.DISPLAYMODE:
+      return Object.assign({}, state, {
+        displayMode: action.mode,
       });
     default:
       return state;

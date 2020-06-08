@@ -1,6 +1,7 @@
 import { utils } from "../../helpers/utils";
 import { notify } from "../../helpers/notification";
-import { StreamActions } from "../reducers/stream";
+import { StreamActions, StreamViewModes } from "../reducers/stream";
+import { GeneralActions } from "../reducers/general";
 
 export const create = (payload) => {
   return async (dispatch) => {
@@ -123,5 +124,23 @@ export const onView = () => {
 export const onCancel = () => {
   return (dispatch) => {
     dispatch({ type: StreamActions.CANCELMODAL });
+  };
+};
+
+export const fullScreenMode = () => {
+  return (dispatch) => {
+    dispatch({
+      type: GeneralActions.DISPLAYMODE,
+      mode: StreamViewModes.FULLSCREEN,
+    });
+  };
+};
+
+export const twoByTwoMode = () => {
+  return (dispatch) => {
+    dispatch({
+      type: GeneralActions.DISPLAYMODE,
+      mode: StreamViewModes.TWOBYTWO,
+    });
   };
 };

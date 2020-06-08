@@ -15,6 +15,11 @@ export const StreamActions = {
   STREAM: "STREAM",
 };
 
+export const StreamViewModes = {
+  FULLSCREEN: "FULLSCREEN",
+  TWOBYTWO: "TWOBYTWO",
+};
+
 const stream = (state = initState, action) => {
   switch (action.type) {
     case StreamActions.SELECTSTREAM:
