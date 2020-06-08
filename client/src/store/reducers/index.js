@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import general, { GeneralActions } from "./general";
+import general from "./general";
 import stream from "./stream";
 import user from "./user";
 

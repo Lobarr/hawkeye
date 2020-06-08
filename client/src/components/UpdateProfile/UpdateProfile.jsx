@@ -5,11 +5,7 @@ import { closeUpdateProfile, update } from "../../store/actions/user";
 const FormItem = Form.Item;
 
 class UpdateProfile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
@@ -17,7 +13,8 @@ class UpdateProfile extends React.Component {
       }
     });
     this.props.form.resetFields();
-  }
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (

@@ -1,32 +1,33 @@
 version: "2"
 services:
   apidoc:
-    build: 
+    build:
       context: .
       dockerfile: ./docker/Dockerfile.apidoc
-    ports: 
+    ports:
       - "5000:5000"
     volumes:
       - ./:/hawkeye
   client:
     build:
-        context: ./client
-        dockerfile: ../docker/Dockerfile.client
+      context: ./client
+      dockerfile: ../docker/Dockerfile.client
     ports:
       - "3000:3000"
-    volumes: 
+    volumes:
       - ./client:/client
     depends_on:
       - server
+    #TODO: try setting server url from here
   database:
     image: "mongo:latest"
-    ports: 
+    ports:
       - "27017:27017"
-  server: 
-    build: 
+  server:
+    build:
       context: .
       dockerfile: ./docker/Dockerfile.server
-    environment: 
+    environment:
       - MONGO_URL=mongodb://database
       - NODE_ENV=development
       - PORT=3001
@@ -35,5 +36,5 @@ services:
       - "3001:3001"
     volumes:
       - ./:/hawkeye
-    depends_on: 
+    depends_on:
       - database

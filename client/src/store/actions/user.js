@@ -7,10 +7,10 @@ import { GeneralActions } from "../reducers/general";
 export const getUser = () => {
   return async (dispatch, getState) => {
     try {
-      const res = await utils.call({
+      const { data } = await utils.call({
         endpoint: "/user/me",
       });
-      dispatch({ type: UserActions.USER, payload: { user: res.data } });
+      dispatch({ type: UserActions.USER, payload: { user: data.data } });
     } catch (err) {
       if (!err.response) {
         notify({
@@ -30,7 +30,7 @@ export const getUser = () => {
 export const update = (username) => {
   return async (dispatch) => {
     try {
-      const res = await utils.call({
+      const { data } = await utils.call({
         endpoint: "/user/me",
         method: "patch",
         data: {
@@ -41,10 +41,10 @@ export const update = (username) => {
         type: "success",
         message: "Successfully updated user!",
       });
-      sessionStorage.setItem("hawkeye", res.data.token);
+      sessionStorage.setItem("hawkeye", data.data.token);
       dispatch({
         type: UserActions.USER,
-        payload: { user: omit(res.data, "token") },
+        payload: { user: omit(data.data, "token") },
       });
     } catch (err) {
       if (!err.response) {

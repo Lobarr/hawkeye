@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Form, Input, Button, Icon, Row } from "antd";
 import { login } from "../../store/actions/auth";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { notify } from "../../helpers/notification";
 import "./Login.css";
 

@@ -10,11 +10,7 @@ const { Sider } = Layout;
 const { Item, SubMenu } = Menu;
 
 class Sidebar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.displayStreams = this.displayStreams.bind(this);
-  }
-  displayStreams() {
+  displayStreams = () => {
     if (this.props.stream.streams.length !== 0) {
       return this.props.stream.streams.map((stream, index) => (
         <Item key={index + 4}>
@@ -26,7 +22,8 @@ class Sidebar extends React.Component {
     } else {
       return <Item key="0">No streams</Item>;
     }
-  }
+  };
+
   render() {
     return (
       <Sider style={{ backgroundColor: "white" }}>

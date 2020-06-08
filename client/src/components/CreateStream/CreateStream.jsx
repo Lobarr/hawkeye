@@ -5,12 +5,7 @@ import { create, onCancel } from "../../store/actions/stream";
 const FormItem = Form.Item;
 
 class CreateStream extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.checkURL = this.checkURL.bind(this);
-  }
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
@@ -19,13 +14,15 @@ class CreateStream extends React.Component {
       }
     });
     this.props.form.resetFields();
-  }
-  checkURL(rule, value, callback) {
+  };
+
+  checkURL = (rule, value, callback) => {
     if (!value.includes("rtmp://")) {
       callback("Please input an rtmp url");
     }
     callback();
-  }
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (

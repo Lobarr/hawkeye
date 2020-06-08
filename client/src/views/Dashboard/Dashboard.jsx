@@ -6,12 +6,9 @@ import { getUser } from "../../store/actions/user";
 import { getStreams } from "../../store/actions/stream";
 import "./Dashboard.css";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
     this.props.getUser();
     this.props.getStreams();

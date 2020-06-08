@@ -8,28 +8,23 @@ import "./Header.css";
 const { Header } = Layout;
 
 class DashboardHeader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handlePopover = this.handlePopover.bind(this);
-  }
-  handlePopover() {
-    if (this.props.user.popoverVisible) {
-      this.props.closePopover();
-    } else {
-      this.props.openPopover();
-    }
-  }
+  handlePopover = () => {
+    const { user, closePopover, openPopover } = this.props;
+
+    user.popoverVisible ? closePopover() : openPopover();
+  };
+
   render() {
     return (
       <Header className="header" style={{ backgroundColor: "#E8EEF2" }}>
-        <div className="header-icon-container">
+        <div className="header-icon-container" onClick={this.onView}>
           <Icon
             type="plus"
             className="header-icon"
             onClick={this.props.onView}
           />
         </div>
-        <div className="header-icon-container">
+        <div className="header-icon-container" onClick={this.handlePopover}>
           <Icon
             type="user"
             className="header-icon"

@@ -1,5 +1,3 @@
-import { GeneralActions } from "./general";
-
 const initState = {
   modalVisible: false,
   streams: [],

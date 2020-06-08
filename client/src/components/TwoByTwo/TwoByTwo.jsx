@@ -1,58 +1,41 @@
 import React from "react";
 import { connect } from "react-redux";
 import { isEmpty } from "underscore";
+import { SelectStreamPlaceholder, VideoPLayer } from "../index";
 import "./TwoByTwo.css";
 
 class TwoByTwo extends React.Component {
-  render() {
-    if (!isEmpty(this.props.stream.selectedStream)) {
-      return (
-        <div id="twobytwo">
-          <iframe
-            className="stream"
-            src="https://player.twitch.tv/?channel=olvap377"
-            frameborder="0"
-            scrolling="no"
-            allowfullScreen="true"
-          />
-          <iframe
-            className="stream"
-            src="https://player.twitch.tv/?channel=olvap377"
-            frameborder="0"
-            scrolling="no"
-            allowfullScreen="true"
-          />
-          <iframe
-            className="stream"
-            src="https://player.twitch.tv/?channel=olvap377"
-            frameborder="0"
-            scrolling="no"
-            allowfullScreen="true"
-          />
-          <iframe
-            className="stream"
-            src="https://player.twitch.tv/?channel=olvap377"
-            frameborder="0"
-            scrolling="no"
-            allowfullScreen="true"
-          />
-        </div>
-      );
+  renderSteams() {
+    const renderedStreams = [];
+    const { stream } = this.props;
+
+    for (let i = 0; i < 4; i++) {
+      if (stream.streams && stream.streams.length > i) {
+        renderedStreams.push(
+          <div className="stream" key={i}>
+            <VideoPLayer src={stream.streams[i].url} />
+          </div>
+        );
+      } else {
+        renderedStreams.push(
+          <div className="stream" key={i}>
+            <div className="empty-slot">
+              <p>No Stream to Preview</p>
+            </div>
+          </div>
+        );
+      }
     }
-    return (
-      <div id="fullscreen-select">
-        <h1>Select a stream...</h1>
-      </div>
-    );
-    // return (
-    //   <iframe
-    //     src="https://player.twitch.tv/?channel=olvap377"
-    //     style={{ height: "100%", width: "100%" }}
-    //     frameborder="0"
-    //     scrolling="no"
-    //     allowfullScreen="true"
-    //   />
-    // );
+
+    return renderedStreams;
+  }
+
+  render() {
+    const { stream } = this.props;
+    if (!isEmpty(stream.streams)) {
+      return <div id="twobytwo">{this.renderSteams()}</div>;
+    }
+    return <SelectStreamPlaceholder />;
   }
 }
 

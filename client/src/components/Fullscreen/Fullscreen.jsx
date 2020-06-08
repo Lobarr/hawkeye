@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { VideoPLayer } from "../index";
+import { VideoPLayer, SelectStreamPlaceholder } from "../index";
 import { isEmpty } from "underscore";
 import "./Fullscreen.css";
 
@@ -9,8 +9,6 @@ class Fullscreen extends React.Component {
     const { selectedStream } = this.props.stream;
     if (!isEmpty(selectedStream)) {
       const videoJsOptions = {
-        autoplay: true,
-        controls: true,
         src: selectedStream.url,
       };
       return (
@@ -20,11 +18,7 @@ class Fullscreen extends React.Component {
       );
     }
 
-    return (
-      <div id="fullscreen-select">
-        <h1>Select a stream...</h1>
-      </div>
-    );
+    return <SelectStreamPlaceholder />;
   }
 }
 

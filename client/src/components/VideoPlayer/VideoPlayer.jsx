@@ -1,12 +1,18 @@
 import React from "react";
 import videojs from "video.js";
+import "./VideoPlayer.css";
+import "video.js/dist/video-js.css";
 
 export default class VideoPlayer extends React.Component {
   componentDidMount() {
-    // instantiate Video.js
-    this.player = videojs(this.videoNode, this.props, function onPlayerReady() {
-      console.log("onPlayerReady", this);
-    });
+    this.player = videojs(
+      this.videoNode,
+      Object.assign({}, this.props, {
+        fluid: true,
+        preload: "auto",
+        flash: { swf: require("videojs-swf/dist/video-js.swf") },
+      })
+    );
   }
 
   // destroy player on unmount
@@ -16,16 +22,17 @@ export default class VideoPlayer extends React.Component {
     }
   }
 
-  // wrap the player in a div with a `data-vjs-player` attribute
-  // so videojs won't create additional wrapper in the DOM
-  // see https://github.com/videojs/video.js/pull/3856
   render() {
     return (
-      <div>
-        <div data-vjs-player>
+      <div className="video-player-container">
+        <div data-vjs-player className="video-player">
           <video
+            autoPlay="muted"
+            height="100%"
+            width="100%"
+            controls
             ref={(node) => (this.videoNode = node)}
-            className="video-js"
+            className="video-js vjs-default-skin vjs-big-play-centered"
           ></video>
         </div>
       </div>
