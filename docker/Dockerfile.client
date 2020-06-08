@@ -1,5 +1,5 @@
 
-FROM node:8-alpine
+FROM node:14-alpine
 
 # Copy app directory into container
 COPY . /client

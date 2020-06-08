@@ -4,7 +4,7 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
-const { PORT, NODE_ENV } = require("../config");
+const { NODE_ENV } = require("../config");
 
 module.exports = (controllers = [], middlewares = []) => {
   const app = express();
@@ -23,7 +23,7 @@ module.exports = (controllers = [], middlewares = []) => {
   app.use(cors());
 
   // Enable logging for development environment
-  if (NODE_ENV === "development") morgan("short");
+  if (NODE_ENV === "development") app.use(morgan("short"));
 
   // Attach provided controllers
   for (const controller of controllers) {

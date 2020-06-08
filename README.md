@@ -5,13 +5,13 @@
 ## Install
 
 ```sh
-yarn install
+yarn install && cd client; yarn install
 ```
 
 ## Usage
 
 ```sh
-yarn run start
+yarn run start-dev
 ```
 
 ## Run tests
