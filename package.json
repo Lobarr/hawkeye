@@ -24,7 +24,7 @@
     "jsonwebtoken": "^8.0.1",
     "moment": "^2.18.1",
     "mongodb": "^2.2.31",
-    "mongoose": "^4.11.13",
+    "mongoose": "^5.9.18",
     "morgan": "^1.8.2",
     "path": "^0.12.7",
     "signale": "^1.4.0",
@@ -41,7 +41,7 @@
     "start": "node index.js",
     "test-server": "mocha --opts ./mocha.opts --exit ./api/modules/*",
     "test-client": "cd client && yarn test",
-    "test": "yarn run test-server cd ",
+    "test": "yarn run test-server && yarn run test-client",
     "watch-apidoc": "nodemon -L --exec yarn run build-apidoc"
   },
   "devDependencies": {

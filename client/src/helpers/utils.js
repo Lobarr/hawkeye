@@ -1,5 +1,4 @@
 import axios from "axios";
-import _ from "underscore";
 
 export const utils = {
   STORAGE_KEY: process.env.REACT_APP_API,
@@ -10,8 +9,8 @@ export const utils = {
 
   isAuthenticated() {
     return (
-      _.isEmpty(sessionStorage.getItem(this.STORAGE_KEY)) === false &&
-      _.isString(sessionStorage.getItem(this.STORAGE_KEY))
+      sessionStorage.getItem(this.STORAGE_KEY) !== null &&
+      sessionStorage.getItem(this.STORAGE_KEY) !== undefined
     );
   },
 

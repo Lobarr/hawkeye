@@ -7,7 +7,7 @@ before(async () => {
   const mongoUrl = await mongod.getConnectionString();
 
   await mongoose.connect(mongoUrl, {
-    promiseLibrary: Promise,
+    promiseLibrary: require("bluebird"),
   });
 });
 

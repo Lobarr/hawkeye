@@ -1,15 +1,8 @@
-// require("dotenv").config();
-// const _ = require("underscore");
-// const chai = require("chai");
-// const assert = chai.assert;
-// const server = require("../../../index");
-// chai.use(require("chai-http"));
-
 const _ = require("underscore");
-const { makeApp } = require("../../setup");
+const makeApp = require("../../setup/appFactory");
 const chai = require("chai");
 const httpStatus = require("http-status-codes");
-const makeAgent = require("../../testUtils/makeAgent");
+const makeAgent = require("../../testUtils/agentFactory");
 
 const assert = chai.assert;
 

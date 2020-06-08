@@ -1,6 +1,8 @@
 import { utils } from "../../helpers/utils";
 import { notify } from "../../helpers/notification";
 import { omit } from "underscore";
+import { UserActions } from "../reducers/user";
+import { GeneralActions } from "../reducers/general";
 
 export const getUser = () => {
   return async (dispatch, getState) => {
@@ -8,7 +10,7 @@ export const getUser = () => {
       const res = await utils.call({
         endpoint: "/user/me",
       });
-      dispatch({ type: "USER", payload: { user: res.data } });
+      dispatch({ type: UserActions.USER, payload: { user: res.data } });
     } catch (err) {
       if (!err.response) {
         notify({
@@ -40,7 +42,10 @@ export const update = (username) => {
         message: "Successfully updated user!",
       });
       sessionStorage.setItem("hawkeye", res.data.token);
-      dispatch({ type: "USER", payload: { user: omit(res.data, "token") } });
+      dispatch({
+        type: UserActions.USER,
+        payload: { user: omit(res.data, "token") },
+      });
     } catch (err) {
       if (!err.response) {
         notify({
@@ -65,7 +70,7 @@ export const remove = () => {
         method: "delete",
       });
       utils.resetToken();
-      dispatch({ type: "LOGOUT" });
+      dispatch({ type: GeneralActions.LOGOUT });
     } catch (err) {
       if (!err.response) {
         notify({
@@ -84,36 +89,36 @@ export const remove = () => {
 
 export const openPopover = () => {
   return (dispatch) => {
-    dispatch({ type: "OPENPOPOVER" });
+    dispatch({ type: UserActions.OPENPOPOVER });
   };
 };
 
 export const closePopover = () => {
   return (dispatch) => {
-    dispatch({ type: "CLOSEPOPOVER" });
+    dispatch({ type: UserActions.CLOSEPOPOVER });
   };
 };
 
 export const viewProfile = () => {
   return (dispatch) => {
-    dispatch({ type: "VIEWPROFILE" });
+    dispatch({ type: UserActions.VIEWPROFILE });
   };
 };
 
 export const closeViewProfile = () => {
   return (dispatch) => {
-    dispatch({ type: "CLOSEVIEWPROFILE" });
+    dispatch({ type: UserActions.CLOSEVIEWPROFILE });
   };
 };
 
 export const updateProfile = () => {
   return (dispatch) => {
-    dispatch({ type: "UPDATEPROFILE" });
+    dispatch({ type: UserActions.UPDATEPROFILE });
   };
 };
 
 export const closeUpdateProfile = () => {
   return (dispatch) => {
-    dispatch({ type: "CLOSEUPDATEPROFILE" });
+    dispatch({ type: UserActions.CLOSEUPDATEPROFILE });
   };
 };

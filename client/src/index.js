@@ -1,14 +1,14 @@
-import "./index.css";
-import "antd/dist/antd.css";
-import { Provider } from "react-redux";
-import { Router, Switch, Route, Redirect } from "react-router-dom";
-import createBrowserHistory from "history/createBrowserHistory";
 import React from "react";
+import { Provider } from "react-redux";
+import { Router, Switch, Route } from "react-router-dom";
+import createBrowserHistory from "history/createBrowserHistory";
 import ReactDOM from "react-dom";
 import registerServiceWorker from "./helpers/registerServiceWorker";
 import { makeStore } from "./store/index";
 import { Login, Signup, Dashboard } from "./views/index";
-import { utils } from "./helpers/utils";
+import { AuthRoute, ProtectedRoute } from "./components/index";
+import "./index.css";
+import "antd/dist/antd.css";
 
 class Index extends React.Component {
   constructor(props) {
@@ -33,32 +33,6 @@ class Index extends React.Component {
     );
   }
 }
-
-const ProtectedRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      utils.isAuthenticated() === true ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/login" }} />
-      )
-    }
-  />
-);
-
-const AuthRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      utils.isAuthenticated() === false ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/" }} />
-      )
-    }
-  />
-);
 
 const NotFound = () => <h1>Invalid Route</h1>;
 

@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import general from "./general";
+import general, { GeneralActions } from "./general";
 import stream from "./stream";
 import user from "./user";
 
@@ -8,7 +8,7 @@ import user from "./user";
 const rootReducer = combineReducers({
   general,
   stream,
-  user
+  user,
 });
 
 export default rootReducer;

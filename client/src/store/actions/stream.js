@@ -1,5 +1,6 @@
 import { utils } from "../../helpers/utils";
 import { notify } from "../../helpers/notification";
+import { StreamActions } from "../reducers/stream";
 
 export const create = (payload) => {
   return async (dispatch) => {
@@ -9,7 +10,7 @@ export const create = (payload) => {
         method: "post",
         data: payload,
       });
-      dispatch({ type: "CANCELMODAL" });
+      dispatch({ type: StreamActions.CANCELMODAL });
       dispatch(getStreams());
       notify({
         type: "success",
@@ -61,10 +62,13 @@ export const remove = (id) => {
 export const getStreams = () => {
   return async (dispatch) => {
     try {
-      const res = await utils.call({
+      const { data } = await utils.call({
         endpoint: "/stream",
       });
-      dispatch({ type: "STREAMS", payload: { streams: res.data } });
+      dispatch({
+        type: StreamActions.STREAMS,
+        payload: { streams: data.data },
+      });
     } catch (err) {
       if (!err.response) {
         notify({
@@ -83,17 +87,17 @@ export const getStreams = () => {
 
 export const select = (stream) => {
   return (dispatch) => {
-    dispatch({ type: "SELECTSTREAM", payload: { stream } });
+    dispatch({ type: StreamActions.SELECTSTREAM, payload: { stream } });
   };
 };
 
 export const getStream = (id) => {
   return async (dispatch) => {
     try {
-      const res = await utils.call({
+      const { data } = await utils.call({
         endpoint: `/stream/${id}`,
       });
-      dispatch({ type: "STREAM", payload: { stream: res.data } });
+      dispatch({ type: StreamActions.STREAM, payload: { stream: data.data } });
     } catch (err) {
       if (!err.response) {
         notify({
@@ -112,12 +116,12 @@ export const getStream = (id) => {
 
 export const onView = () => {
   return (dispatch) => {
-    dispatch({ type: "VIEWMODAL" });
+    dispatch({ type: StreamActions.VIEWMODAL });
   };
 };
 
 export const onCancel = () => {
   return (dispatch) => {
-    dispatch({ type: "CANCELMODAL" });
+    dispatch({ type: StreamActions.CANCELMODAL });
   };
 };

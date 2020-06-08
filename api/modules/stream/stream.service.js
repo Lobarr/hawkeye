@@ -120,7 +120,7 @@ module.exports = {
       throw new Error("Invalid ID");
     }
 
-    return await streamModel.count({ owner: id });
+    return await streamModel.countDocuments({ owner: id });
   },
 
   /**

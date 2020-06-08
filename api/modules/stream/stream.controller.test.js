@@ -1,8 +1,8 @@
 const _ = require("underscore");
-const { makeApp } = require("../../setup");
+const makeApp = require("../../setup/appFactory");
 const chai = require("chai");
 const httpStatus = require("http-status-codes");
-const makeAgent = require("../../testUtils/makeAgent");
+const makeAgent = require("../../testUtils/agentFactory");
 
 const assert = chai.assert;
 

@@ -31,10 +31,9 @@ authController.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     if (username === undefined || password === undefined) {
-      res.status(httpStatus.BAD_REQUEST).send({
+      return res.status(httpStatus.BAD_REQUEST).send({
         status: http.STATUS_CODES[httpStatus.BAD_REQUEST],
       });
-      return;
     }
 
     const token = await userService.validate(username, password);
@@ -96,8 +95,9 @@ authController.post("/signup", async (req, res) => {
       email === undefined ||
       password === undefined
     ) {
-      res.status(httpStatus.BAD_REQUEST).send({ status: "Incomplete Request" });
-      return;
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ status: "Incomplete Request" });
     }
 
     await userService.create({ username, email, password });

@@ -1,6 +1,6 @@
-const { makeApp } = require("../../setup");
+const makeApp = require("../../setup/appFactory");
 const chai = require("chai");
-const makeAgent = require("../../testUtils/makeAgent");
+const makeAgent = require("../../testUtils/agentFactory");
 
 chai.use(require("chai-http"));
 

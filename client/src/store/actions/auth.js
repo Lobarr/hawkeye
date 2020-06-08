@@ -1,21 +1,22 @@
 import { utils } from "../../helpers/utils";
 import { notify } from "../..//helpers/notification";
+import { GeneralActions } from "../reducers/general";
 
 export const login = (payload) => {
   return async (dispatch) => {
     try {
       //show loading
-      dispatch({ type: "LOADING" });
+      dispatch({ type: GeneralActions.LOADING });
       const { data } = await utils.call({
         endpoint: "/login",
         method: "post",
         data: payload,
       });
-      console.log(data);
       sessionStorage.setItem("hawkeye", data.data.token);
-      dispatch({ type: "LOGIN" });
+      dispatch({
+        type: GeneralActions.LOGIN,
+      });
     } catch (err) {
-      console.log(err);
       if (!err.response) {
         notify({
           type: "error",
@@ -28,7 +29,7 @@ export const login = (payload) => {
         });
       }
     } finally {
-      dispatch({ type: "LOADED" });
+      dispatch({ type: GeneralActions.LOADED });
     }
   };
 };
@@ -36,7 +37,7 @@ export const login = (payload) => {
 export const signup = (payload) => {
   return async (dispatch) => {
     try {
-      dispatch({ type: "LOADING" });
+      dispatch({ type: GeneralActions.LOADING });
       await utils.call({
         endpoint: "/signup",
         method: "post",
@@ -59,7 +60,7 @@ export const signup = (payload) => {
         });
       }
     } finally {
-      dispatch({ type: "LOADED" });
+      dispatch({ type: GeneralActions.LOADED });
     }
   };
 };
@@ -67,6 +68,6 @@ export const signup = (payload) => {
 export const logout = () => {
   return (dispatch) => {
     utils.resetToken();
-    dispatch({ type: "LOGOUT" });
+    dispatch({ type: GeneralActions.LOGOUT });
   };
 };

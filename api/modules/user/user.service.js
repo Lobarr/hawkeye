@@ -3,6 +3,7 @@ const { userModel } = require("./user.schema");
 const authService = require("../auth/auth.service");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const signale = require("signale");
 
 module.exports = {
   /**

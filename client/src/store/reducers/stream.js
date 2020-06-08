@@ -1,31 +1,41 @@
+import { GeneralActions } from "./general";
+
 const initState = {
   modalVisible: false,
   streams: [],
   stream: {},
-  selectedStream: {}
+  selectedStream: {},
+};
+
+export const StreamActions = {
+  SELECTSTREAM: "SELECTSTREAM",
+  CANCELMODAL: "CANCELMODAL",
+  VIEWMODAL: "VIEWMODAL",
+  STREAMS: "STREAMS",
+  STREAM: "STREAM",
 };
 
 const stream = (state = initState, action) => {
   switch (action.type) {
-    case "SELECTSTREAM":
+    case StreamActions.SELECTSTREAM:
       return Object.assign({}, state, {
-        selectedStream: action.payload.stream
+        selectedStream: action.payload.stream,
       });
-    case "CANCELMODAL":
+    case StreamActions.CANCELMODAL:
       return Object.assign({}, state, {
-        modalVisible: false
+        modalVisible: false,
       });
-    case "VIEWMODAL":
+    case StreamActions.VIEWMODAL:
       return Object.assign({}, state, {
-        modalVisible: true
+        modalVisible: true,
       });
-    case "STREAMS":
+    case StreamActions.STREAMS:
       return Object.assign({}, state, {
-        streams: action.payload.streams
+        streams: action.payload.streams,
       });
-    case "STREAM":
+    case StreamActions.STREAM:
       return Object.assign({}, state, {
-        streams: action.payload.stream
+        stream: action.payload.stream,
       });
     default:
       return state;

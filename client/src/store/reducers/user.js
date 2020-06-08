@@ -2,38 +2,48 @@ const initState = {
   user: {},
   popoverVisible: false,
   viewProfile: false,
-  updateProfile: false
+  updateProfile: false,
+};
+
+export const UserActions = {
+  CLOSEPOPOVER: "CLOSEPOPOVER",
+  CLOSEUPDATEPROFILE: "CLOSEUPDATEPROFILE",
+  CLOSEVIEWPROFILE: "CLOSEVIEWPROFILE",
+  OPENPOPOVER: "OPENPOPOVER",
+  UPDATEPROFILE: "UPDATEPROFILE",
+  USER: "USER",
+  VIEWPROFILE: "VIEWPROFILE",
 };
 
 const user = (state = initState, action) => {
   switch (action.type) {
-    case "VIEWPROFILE":
+    case UserActions.VIEWPROFILE:
       return Object.assign({}, state, {
-        viewProfile: true
+        viewProfile: true,
       });
-    case "CLOSEVIEWPROFILE":
+    case UserActions.CLOSEVIEWPROFILE:
       return Object.assign({}, state, {
-        viewProfile: false
+        viewProfile: false,
       });
-    case "UPDATEPROFILE":
+    case UserActions.UPDATEPROFILE:
       return Object.assign({}, state, {
-        updateProfile: true
+        updateProfile: true,
       });
-    case "CLOSEUPDATEPROFILE":
+    case UserActions.CLOSEUPDATEPROFILE:
       return Object.assign({}, state, {
-        updateProfile: false
+        updateProfile: false,
       });
-    case "OPENPOPOVER":
+    case UserActions.OPENPOPOVER:
       return Object.assign({}, state, {
-        popoverVisible: true
+        popoverVisible: true,
       });
-    case "CLOSEPOPOVER":
+    case UserActions.CLOSEPOPOVER:
       return Object.assign({}, state, {
-        popoverVisible: false
+        popoverVisible: false,
       });
-    case "USER":
+    case UserActions.USER:
       return Object.assign({}, state, {
-        user: action.payload.user
+        user: action.payload.user,
       });
     default:
       return state;

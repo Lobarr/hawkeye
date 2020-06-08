@@ -1,16 +1,14 @@
-const {
-  makeAgenda,
-  makeApp,
-  connectToDB,
-  controllers,
-} = require("./api/setup");
+const makeAgenda = require("./api/setup/agendaFactory");
+const makeApp = require("./api/setup/appFactory");
+const connectToDB = require("./api/setup/db");
+const controllers = require("./api/setup/controllers");
 const { PORT } = require("./api/config");
 const signale = require("signale");
 const userTask = require("./api/modules/user/user.task");
 
 (() => {
   // Connect to database
-  Promise.resolve(connectToDB).catch((err) => signale.fatal(err));
+  connectToDB();
 
   // Setup app
   const app = makeApp(controllers);

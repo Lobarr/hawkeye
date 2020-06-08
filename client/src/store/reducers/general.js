@@ -1,27 +1,36 @@
+const { utils } = require("../../helpers/utils");
+
 const initState = {
   isLoading: false,
   denied: false,
-  access: sessionStorage.getItem("hawkeye") ? true : false,
-  user: {}
+  access: utils.isAuthenticated(),
+  user: {},
+};
+
+export const GeneralActions = {
+  LOGIN: "LOGIN",
+  LOGOUT: "LOGOUT",
+  LOADING: "LOADING",
+  LOADED: "LOADED",
 };
 
 const general = (state = initState, action) => {
   switch (action.type) {
-    case "LOGIN":
+    case GeneralActions.LOGIN:
       return Object.assign({}, state, {
-        access: true
+        access: true,
       });
-    case "LOGOUT":
+    case GeneralActions.LOGOUT:
       return Object.assign({}, state, {
-        access: false
+        access: false,
       });
-    case "LOADING":
+    case GeneralActions.LOADING:
       return Object.assign({}, state, {
-        isLoading: true
+        isLoading: true,
       });
-    case "LOADED":
+    case GeneralActions.LOADED:
       return Object.assign({}, state, {
-        isLoading: false
+        isLoading: false,
       });
     default:
       return state;
