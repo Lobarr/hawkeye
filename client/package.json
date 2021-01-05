@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^2.13.10",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "history": "^4.7.2",
     "moment": "^2.19.1",
     "node-sass-chokidar": "^0.0.3",
